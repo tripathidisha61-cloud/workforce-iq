@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { Pool } = require("pg");
 
-const DB_FILE = path.join(__dirname, "local_db.json");
+const os = require("os"); const DB_FILE = process.env.VERCEL ? path.join(os.tmpdir(), "local_db.json") : path.join(__dirname, "local_db.json");
 
 let pool = null;
 let isPgConnected = false;
@@ -709,7 +709,7 @@ const db = {
         {
           id: 1,
           type: "risk",
-          icon: "🔴",
+          icon: "????",
           badge: "Urgent Attention",
           title: "3 employees show high-risk signals",
           description: "Elevated attrition indicators in Engineering & QA driven by engagement dips and skill transition barriers.",
@@ -719,7 +719,7 @@ const db = {
         {
           id: 2,
           type: "skill_gap",
-          icon: "🟡",
+          icon: "????",
           badge: "Capability Gap",
           title: "14 employees have skill gaps",
           description: "Concentrated around Cloud Architecture (AWS/Terraform) and Modern Test Automation frameworks.",
@@ -729,7 +729,7 @@ const db = {
         {
           id: 3,
           type: "candidate_match",
-          icon: "🟢",
+          icon: "????",
           badge: "Strong Talent Signal",
           title: "8 candidates strongly match open jobs",
           description: "Priya Sharma (87% match) and Rahul Mehta (92% match) ready for final technical review.",
@@ -760,3 +760,4 @@ const db = {
 };
 
 module.exports = db;
+

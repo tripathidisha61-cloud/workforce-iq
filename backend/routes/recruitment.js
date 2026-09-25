@@ -7,7 +7,7 @@ const db = require("../database/db");
 const { extractTextFromPdf, parseCandidateFromText } = require("../services/resumeParser");
 const { orchestrate } = require("../services/aiOrchestrator");
 
-const uploadsDir = path.join(__dirname, "../uploads");
+const os = require("os"); const uploadsDir = process.env.VERCEL ? os.tmpdir() : path.join(__dirname, "../uploads");
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
 const storage = multer.diskStorage({
@@ -144,3 +144,4 @@ router.post("/analyze", async (req, res) => {
 });
 
 module.exports = router;
+

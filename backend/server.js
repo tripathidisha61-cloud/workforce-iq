@@ -54,12 +54,6 @@ if (fs.existsSync(frontendDistPath)) {
   app.get("*", (req, res) => {
     res.sendFile(path.join(frontendDistPath, "index.html"));
   });
-} else {
-  app.get("/", (req, res) => {
-    res.json({
-      message: "WorkforceIQ API running (Frontend dist not found, run npm run build in frontend)"
-    });
-  });
 }
 
 // Error Handling Middleware
@@ -72,12 +66,16 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Boot Unified Server
-app.listen(PORT, async () => {
-  await db.initDb();
-  console.log(`=======================================================`);
-  console.log(` WorkforceIQ UNIFIED FULL-STACK SERVER RUNNING`);
-  console.log(` Open in Browser: http://localhost:${PORT}`);
-  console.log(` Frontend UI + Backend API + AI Orchestrator: ACTIVE`);
-  console.log(`=======================================================`);
-});
+// Boot Unified Server when run directly (or local/Render)
+if (require.main === module) {
+  app.listen(PORT, async () => {
+    await db.initDb();
+    console.log(`=======================================================`);
+    console.log(` WorkforceIQ UNIFIED FULL-STACK SERVER RUNNING`);
+    console.log(` Open in Browser: http://localhost:${PORT}`);
+    console.log(` Frontend UI + Backend API + AI Orchestrator: ACTIVE`);
+    console.log(`=======================================================`);
+  });
+}
+
+module.exports = app;
