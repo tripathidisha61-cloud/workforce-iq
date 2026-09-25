@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Rahul Verma",
+    "department": "Engineering",
+    "role": "Backend Software Engineer",
+    "performance": 76,
+    "attendance": 72,
+    "engagement": 54,
+    "skill_growth": 61,
+    "risk_level": "HIGH",
+    "risk_score": 68
+  },
+  {
+    "id": 2,
+    "name": "Aarav Singh",
+    "department": "Engineering",
+    "role": "Junior Backend Developer",
+    "performance": 88,
+    "attendance": 96,
+    "engagement": 84,
+    "skill_growth": 78,
+    "risk_level": "LOW",
+    "risk_score": 18
+  },
+  {
+    "id": 3,
+    "name": "Neha Sharma",
+    "department": "Product Design",
+    "role": "Lead UI/UX Designer",
+    "performance": 91,
+    "attendance": 95,
+    "engagement": 89,
+    "skill_growth": 85,
+    "risk_level": "LOW",
+    "risk_score": 12
+  },
+  {
+    "id": 4,
+    "name": "Riya Gupta",
+    "department": "Quality Engineering",
+    "role": "QA Test Specialist",
+    "performance": 64,
+    "attendance": 68,
+    "engagement": 58,
+    "skill_growth": 52,
+    "risk_level": "HIGH",
+    "risk_score": 64
+  }
+]

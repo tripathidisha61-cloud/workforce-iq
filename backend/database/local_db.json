@@ -1,0 +1,956 @@
+{
+  "jobs": [
+    {
+      "id": 1,
+      "title": "Backend Developer",
+      "department": "Engineering",
+      "description": "Design and implement high-throughput REST and streaming APIs, architect microservices, and optimize relational databases.",
+      "required_skills": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker",
+        "AWS"
+      ],
+      "min_experience": 2,
+      "openings": 2,
+      "location": "Hybrid (Bengaluru / Remote)"
+    },
+    {
+      "id": 2,
+      "title": "Frontend Developer",
+      "department": "Engineering",
+      "description": "Build reactive, accessible user interfaces using React, TypeScript, and modern state architectures.",
+      "required_skills": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Redux",
+        "Node.js"
+      ],
+      "min_experience": 3,
+      "openings": 1,
+      "location": "Bengaluru, India"
+    },
+    {
+      "id": 3,
+      "title": "AI/ML Engineer",
+      "department": "AI Innovation Lab",
+      "description": "Develop generative AI workflows, RAG pipelines, fine-tune models, and deploy production inference endpoints.",
+      "required_skills": [
+        "Python",
+        "PyTorch",
+        "LLMs",
+        "Vector DB",
+        "RAG",
+        "FastAPI"
+      ],
+      "min_experience": 3,
+      "openings": 2,
+      "location": "Hybrid (Bengaluru / Remote)"
+    },
+    {
+      "id": 4,
+      "title": "DevOps Engineer",
+      "department": "Infrastructure",
+      "description": "Scale Kubernetes clusters, build CI/CD automation pipelines, maintain cloud infrastructure as code.",
+      "required_skills": [
+        "Kubernetes",
+        "Docker",
+        "Terraform",
+        "AWS",
+        "CI/CD",
+        "Linux"
+      ],
+      "min_experience": 4,
+      "openings": 1,
+      "location": "Remote"
+    },
+    {
+      "id": 5,
+      "title": "Product Manager",
+      "department": "Product",
+      "description": "Lead enterprise product roadmap, define feature specs, work with AI researchers and engineering teams.",
+      "required_skills": [
+        "Agile",
+        "User Research",
+        "Data Analytics",
+        "Roadmapping",
+        "Product Strategy"
+      ],
+      "min_experience": 5,
+      "openings": 1,
+      "location": "Bengaluru, India"
+    },
+    {
+      "id": 6,
+      "title": "QA Automation Engineer",
+      "department": "Quality",
+      "description": "Automate end-to-end integration tests, regression suites, and load test enterprise workflows.",
+      "required_skills": [
+        "Cypress",
+        "Playwright",
+        "Python",
+        "API Testing",
+        "CI/CD"
+      ],
+      "min_experience": 2,
+      "openings": 1,
+      "location": "Bengaluru, India"
+    },
+    {
+      "id": 7,
+      "title": "Cloud Security Architect",
+      "department": "Security",
+      "description": "Oversee zero-trust cloud architecture, compliance posture (SOC2, ISO27001), and vulnerability assessments.",
+      "required_skills": [
+        "AWS Security",
+        "IAM",
+        "Zero Trust",
+        "CloudTrail",
+        "Compliance"
+      ],
+      "min_experience": 6,
+      "openings": 1,
+      "location": "Hybrid (Bengaluru / Remote)"
+    }
+  ],
+  "candidates": [
+    {
+      "id": 1,
+      "name": "Priya Sharma",
+      "email": "priya.sharma@example.com",
+      "phone": "+91 98765 43210",
+      "job_id": 1,
+      "job_title": "Backend Developer",
+      "experience": 2.5,
+      "education": "B.Tech in Computer Science and Engineering",
+      "resume_text": "Priya Sharma\nB.Tech Computer Science\nSkills: Python, FastAPI, PostgreSQL, Docker, AWS (Basic)\nExperience: 2.5 years as Junior Backend Engineer at TechNova. Designed REST APIs using FastAPI, managed database schemas on PostgreSQL, containerized microservices with Docker, assisted team with AWS EC2 deployments.",
+      "skills": [
+        {
+          "name": "Python",
+          "level": "Strong",
+          "score": 95
+        },
+        {
+          "name": "FastAPI",
+          "level": "Strong",
+          "score": 92
+        },
+        {
+          "name": "PostgreSQL",
+          "level": "Strong",
+          "score": 88
+        },
+        {
+          "name": "Docker",
+          "level": "Good",
+          "score": 78
+        },
+        {
+          "name": "AWS",
+          "level": "Basic",
+          "score": 55
+        }
+      ],
+      "match_score": 52,
+      "score_breakdown": {
+        "skill_match": 20,
+        "semantic_match": 82,
+        "experience_match": 85,
+        "formula": "0.50 ? 20 + 0.30 ? 82 + 0.20 ? 85 = 51.6%"
+      },
+      "strengths": [
+        "Relevant backend experience building high-performance REST APIs",
+        "Strong proficiency in Python verified in candidate history",
+        "Strong technology match and proven microservices projects"
+      ],
+      "skill_gaps": [
+        {
+          "skill": "FastAPI",
+          "severity": "High",
+          "note": "Required core capability FastAPI was not identified in verified resume artifacts."
+        },
+        {
+          "skill": "PostgreSQL",
+          "severity": "High",
+          "note": "Required core capability PostgreSQL was not identified in verified resume artifacts."
+        },
+        {
+          "skill": "Docker",
+          "severity": "High",
+          "note": "Required core capability Docker was not identified in verified resume artifacts."
+        },
+        {
+          "skill": "AWS",
+          "severity": "High",
+          "note": "Required core capability AWS was not identified in verified resume artifacts."
+        }
+      ],
+      "status": "Interview Evaluated",
+      "recommendation": "Candidate match is 62%. The primary gaps are FastAPI and Docker. Consider additional technical evaluation."
+    },
+    {
+      "id": 2,
+      "name": "Rahul Mehta",
+      "email": "rahul.mehta@example.com",
+      "phone": "+91 98112 33445",
+      "job_id": 2,
+      "job_title": "Frontend Developer",
+      "experience": 4,
+      "education": "B.E. Information Technology",
+      "resume_text": "Rahul Mehta. 4 years frontend engineer. Skills: React, TypeScript, Tailwind CSS, Redux, Node.js, Next.js. Led design system migration and reduced bundle size by 42%.",
+      "skills": [
+        {
+          "name": "React",
+          "level": "Strong",
+          "score": 96
+        },
+        {
+          "name": "TypeScript",
+          "level": "Strong",
+          "score": 92
+        },
+        {
+          "name": "Tailwind CSS",
+          "level": "Strong",
+          "score": 95
+        },
+        {
+          "name": "Redux",
+          "level": "Good",
+          "score": 85
+        },
+        {
+          "name": "Node.js",
+          "level": "Good",
+          "score": 80
+        }
+      ],
+      "match_score": 92,
+      "score_breakdown": {
+        "skill_match": 94,
+        "semantic_match": 90,
+        "experience_match": 92,
+        "formula": "0.50 * 94 + 0.30 * 90 + 0.20 * 92 = 92.4%"
+      },
+      "strengths": [
+        "Exceptional modern React & TypeScript craftsmanship",
+        "Demonstrated leadership in design systems and web performance optimization",
+        "Solid full-stack appreciation with Node.js"
+      ],
+      "skill_gaps": [
+        {
+          "skill": "GraphQL",
+          "severity": "Minor",
+          "note": "Has worked mostly with REST endpoints"
+        }
+      ],
+      "status": "Interview",
+      "recommendation": "Strongly recommended for technical interview round"
+    },
+    {
+      "id": 3,
+      "name": "Ananya Singh",
+      "email": "ananya.singh@example.com",
+      "phone": "+91 97234 56789",
+      "job_id": 3,
+      "job_title": "AI/ML Engineer",
+      "experience": 3.5,
+      "education": "M.Tech Data Science & AI",
+      "resume_text": "Ananya Singh. M.Tech AI. Skills: Python, PyTorch, Scikit-learn, LLMs, Vector DB, RAG, HuggingFace, FastAPI. Deployed enterprise RAG search system with pgvector and LangChain.",
+      "skills": [
+        {
+          "name": "Python",
+          "level": "Strong",
+          "score": 95
+        },
+        {
+          "name": "PyTorch",
+          "level": "Strong",
+          "score": 90
+        },
+        {
+          "name": "LLMs & RAG",
+          "level": "Strong",
+          "score": 94
+        },
+        {
+          "name": "Vector DB",
+          "level": "Good",
+          "score": 86
+        },
+        {
+          "name": "FastAPI",
+          "level": "Good",
+          "score": 82
+        }
+      ],
+      "match_score": 89,
+      "score_breakdown": {
+        "skill_match": 92,
+        "semantic_match": 88,
+        "experience_match": 84,
+        "formula": "0.50 * 92 + 0.30 * 88 + 0.20 * 84 = 89.2%"
+      },
+      "strengths": [
+        "Production hands-on background with LLM orchestration and vector embeddings",
+        "Rigorous quantitative ML foundation with PyTorch and Transformers"
+      ],
+      "skill_gaps": [
+        {
+          "skill": "Distributed ML Training",
+          "severity": "Minor",
+          "note": "Experience primarily in fine-tuning single-node or API endpoints"
+        }
+      ],
+      "status": "Screened",
+      "recommendation": "Proceed to Technical Interview - High alignment with GenAI initiatives"
+    },
+    {
+      "id": 4,
+      "name": "Karan Gupta",
+      "email": "karan.gupta@example.com",
+      "phone": "+91 96543 21098",
+      "job_id": 4,
+      "job_title": "DevOps Engineer",
+      "experience": 5,
+      "education": "B.Tech Computer Science",
+      "resume_text": "Karan Gupta. 5 years DevOps & SRE. Skills: Kubernetes, Terraform, Docker, AWS, CI/CD, Helm, Prometheus. Managed multi-region AWS EKS clusters.",
+      "skills": [
+        {
+          "name": "Kubernetes",
+          "level": "Strong",
+          "score": 94
+        },
+        {
+          "name": "Docker",
+          "level": "Strong",
+          "score": 95
+        },
+        {
+          "name": "Terraform",
+          "level": "Strong",
+          "score": 90
+        },
+        {
+          "name": "AWS",
+          "level": "Strong",
+          "score": 92
+        },
+        {
+          "name": "CI/CD",
+          "level": "Strong",
+          "score": 88
+        }
+      ],
+      "match_score": 91,
+      "score_breakdown": {
+        "skill_match": 93,
+        "semantic_match": 90,
+        "experience_match": 90,
+        "formula": "0.50 * 93 + 0.30 * 90 + 0.20 * 90 = 91.5%"
+      },
+      "strengths": [
+        "Extensive infrastructure-as-code and container orchestration experience",
+        "Strong production monitoring and high-availability operations"
+      ],
+      "skill_gaps": [
+        {
+          "skill": "Azure/GCP multi-cloud",
+          "severity": "Minor",
+          "note": "Primary background is AWS specific"
+        }
+      ],
+      "status": "Interview",
+      "recommendation": "Advance to Leadership & Architecture Review"
+    }
+  ],
+  "employees": [
+    {
+      "id": 1,
+      "name": "Rahul Verma",
+      "email": "rahul.verma@company.internal",
+      "department": "Engineering",
+      "role": "Backend Software Engineer",
+      "tenure_months": 18,
+      "skills": [
+        {
+          "name": "Python",
+          "level": "Strong"
+        },
+        {
+          "name": "FastAPI",
+          "level": "Good"
+        },
+        {
+          "name": "PostgreSQL",
+          "level": "Strong"
+        },
+        {
+          "name": "Cloud Architecture",
+          "level": "Weak"
+        }
+      ],
+      "performance": 76,
+      "attendance": 72,
+      "engagement": 54,
+      "skill_growth": 61,
+      "risk_score": 63,
+      "risk_level": "HIGH",
+      "risk_factors": [
+        {
+          "factor": "Low Engagement: Engagement score is 54% (below healthy 70% threshold)",
+          "impact": "+25"
+        },
+        {
+          "factor": "Attendance Dip: Attendance is 72% over the last 60-day reporting window",
+          "impact": "+15"
+        },
+        {
+          "factor": "Performance Dip: Performance score currently 76% (trending downward over past 2 cycles)",
+          "impact": "+15"
+        },
+        {
+          "factor": "Key Skill Gap: Identified gap in Cloud Architecture impacting upcoming roadmap dependencies",
+          "impact": "+8"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "Schedule 1-on-1 Career Discussion",
+          "reason": "High risk signal driven by engagement decline and workload pressure.",
+          "urgency": "Immediate",
+          "owner": "Engineering Manager & HRBP"
+        },
+        {
+          "action": "Enroll in Targeted Upskilling Cohort",
+          "reason": "Resolve architectural capability gaps through structured learning stipend.",
+          "urgency": "High",
+          "owner": "People Development Lead"
+        },
+        {
+          "action": "Workload & Sprint Burnout Assessment",
+          "reason": "Investigate potential burnout or mismatched project allocations.",
+          "urgency": "Medium",
+          "owner": "Team Lead"
+        }
+      ],
+      "history": [
+        {
+          "month": "Apr",
+          "performance": 88,
+          "engagement": 82,
+          "attendance": 95
+        },
+        {
+          "month": "May",
+          "performance": 84,
+          "engagement": 74,
+          "attendance": 90
+        },
+        {
+          "month": "Jun",
+          "performance": 80,
+          "engagement": 66,
+          "attendance": 82
+        },
+        {
+          "month": "Jul",
+          "performance": 78,
+          "engagement": 58,
+          "attendance": 75
+        },
+        {
+          "month": "Aug",
+          "performance": 76,
+          "engagement": 54,
+          "attendance": 72
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Aarav Singh",
+      "email": "aarav.singh@company.internal",
+      "department": "Engineering",
+      "role": "Junior Backend Developer",
+      "tenure_months": 4,
+      "skills": [
+        {
+          "name": "Python",
+          "level": "Strong"
+        },
+        {
+          "name": "Django",
+          "level": "Good"
+        },
+        {
+          "name": "PostgreSQL",
+          "level": "Good"
+        },
+        {
+          "name": "Docker",
+          "level": "Learning"
+        },
+        {
+          "name": "AWS",
+          "level": "Learning"
+        },
+        {
+          "name": "Kubernetes",
+          "level": "Pending"
+        }
+      ],
+      "performance": 88,
+      "attendance": 96,
+      "engagement": 84,
+      "skill_growth": 78,
+      "risk_score": 18,
+      "risk_level": "LOW",
+      "risk_factors": [
+        {
+          "factor": "Positive learning velocity and mentorship check-ins",
+          "impact": "Low Risk"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "Continue Adaptive Onboarding Cohort Track",
+          "urgency": "Normal",
+          "owner": "Tech Lead"
+        }
+      ],
+      "history": [
+        {
+          "month": "May",
+          "performance": 82,
+          "engagement": 80,
+          "attendance": 98
+        },
+        {
+          "month": "Jun",
+          "performance": 85,
+          "engagement": 82,
+          "attendance": 96
+        },
+        {
+          "month": "Jul",
+          "performance": 86,
+          "engagement": 84,
+          "attendance": 95
+        },
+        {
+          "month": "Aug",
+          "performance": 88,
+          "engagement": 84,
+          "attendance": 96
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Neha Sharma",
+      "email": "neha.sharma@company.internal",
+      "department": "Product Design",
+      "role": "Lead UI/UX Designer",
+      "tenure_months": 30,
+      "skills": [
+        {
+          "name": "Design Systems",
+          "level": "Strong"
+        },
+        {
+          "name": "User Research",
+          "level": "Strong"
+        },
+        {
+          "name": "Figma",
+          "level": "Strong"
+        },
+        {
+          "name": "Prototyping",
+          "level": "Strong"
+        }
+      ],
+      "performance": 91,
+      "attendance": 95,
+      "engagement": 89,
+      "skill_growth": 85,
+      "risk_score": 12,
+      "risk_level": "LOW",
+      "risk_factors": [
+        {
+          "factor": "Consistent top quartile performance & team leadership",
+          "impact": "Low Risk"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "Nominate for Design Mentorship Leadership Award",
+          "urgency": "Low",
+          "owner": "Head of Product"
+        }
+      ],
+      "history": [
+        {
+          "month": "Apr",
+          "performance": 90,
+          "engagement": 88,
+          "attendance": 96
+        },
+        {
+          "month": "May",
+          "performance": 90,
+          "engagement": 89,
+          "attendance": 95
+        },
+        {
+          "month": "Jun",
+          "performance": 92,
+          "engagement": 90,
+          "attendance": 95
+        },
+        {
+          "month": "Jul",
+          "performance": 91,
+          "engagement": 88,
+          "attendance": 94
+        },
+        {
+          "month": "Aug",
+          "performance": 91,
+          "engagement": 89,
+          "attendance": 95
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Riya Gupta",
+      "email": "riya.gupta@company.internal",
+      "department": "Quality Engineering",
+      "role": "QA Test Specialist",
+      "tenure_months": 22,
+      "skills": [
+        {
+          "name": "Manual QA",
+          "level": "Strong"
+        },
+        {
+          "name": "Jira / TestRail",
+          "level": "Strong"
+        },
+        {
+          "name": "API Testing",
+          "level": "Good"
+        },
+        {
+          "name": "Playwright Automation",
+          "level": "Weak"
+        }
+      ],
+      "performance": 64,
+      "attendance": 68,
+      "engagement": 58,
+      "skill_growth": 52,
+      "risk_score": 64,
+      "risk_level": "HIGH",
+      "risk_factors": [
+        {
+          "factor": "Sub-threshold sprint QA throughput (64%)",
+          "impact": "+22 pts"
+        },
+        {
+          "factor": "Attendance irregularities on release days (68%)",
+          "impact": "+20 pts"
+        },
+        {
+          "factor": "Stalled automation transition (Playwright gap)",
+          "impact": "+18 pts"
+        },
+        {
+          "factor": "Expressed dissatisfaction with legacy test duties",
+          "impact": "+4 pts"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "Pair with Senior Automation Engineer for Playwright upskilling",
+          "urgency": "Immediate",
+          "owner": "QA Director"
+        },
+        {
+          "action": "1-on-1 Wellbeing and Alignment Check-in",
+          "urgency": "High",
+          "owner": "HRBP"
+        }
+      ],
+      "history": [
+        {
+          "month": "Apr",
+          "performance": 78,
+          "engagement": 74,
+          "attendance": 88
+        },
+        {
+          "month": "May",
+          "performance": 74,
+          "engagement": 68,
+          "attendance": 82
+        },
+        {
+          "month": "Jun",
+          "performance": 70,
+          "engagement": 64,
+          "attendance": 75
+        },
+        {
+          "month": "Jul",
+          "performance": 66,
+          "engagement": 60,
+          "attendance": 70
+        },
+        {
+          "month": "Aug",
+          "performance": 64,
+          "engagement": 58,
+          "attendance": 68
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Vikram Patel",
+      "email": "vikram.patel@company.internal",
+      "department": "Engineering",
+      "role": "Senior Frontend Engineer",
+      "tenure_months": 26,
+      "skills": [
+        {
+          "name": "React",
+          "level": "Strong"
+        },
+        {
+          "name": "TypeScript",
+          "level": "Strong"
+        },
+        {
+          "name": "Next.js",
+          "level": "Basic"
+        },
+        {
+          "name": "Microfrontends",
+          "level": "Weak"
+        }
+      ],
+      "performance": 82,
+      "attendance": 88,
+      "engagement": 67,
+      "skill_growth": 65,
+      "risk_score": 42,
+      "risk_level": "MEDIUM",
+      "risk_factors": [
+        {
+          "factor": "Engagement trending down over last 3 sprints",
+          "impact": "+18 pts"
+        },
+        {
+          "factor": "Skill gap in upcoming Next.js 14 architecture revamp",
+          "impact": "+14 pts"
+        },
+        {
+          "factor": "Moderate workload intensity",
+          "impact": "+10 pts"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "Assign Next.js App Router architectural spike project",
+          "urgency": "Medium",
+          "owner": "Staff Engineer"
+        }
+      ],
+      "history": [
+        {
+          "month": "Apr",
+          "performance": 86,
+          "engagement": 78,
+          "attendance": 92
+        },
+        {
+          "month": "May",
+          "performance": 85,
+          "engagement": 74,
+          "attendance": 90
+        },
+        {
+          "month": "Jun",
+          "performance": 84,
+          "engagement": 70,
+          "attendance": 88
+        },
+        {
+          "month": "Jul",
+          "performance": 83,
+          "engagement": 68,
+          "attendance": 88
+        },
+        {
+          "month": "Aug",
+          "performance": 82,
+          "engagement": 67,
+          "attendance": 88
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": 1,
+      "target_type": "candidate",
+      "target_id": 1,
+      "target_name": "Priya Sharma",
+      "candidate_score": 87,
+      "recommendation_type": "Proceed to Interview",
+      "finding": "Candidate has 87% match for Backend Developer with 2.5y relevant experience, but shows basic AWS skills.",
+      "reason": "Core backend competencies (Python, FastAPI, PostgreSQL, Docker) are strong. AWS gap can be evaluated and bridged through fast onboarding.",
+      "action": "Schedule Technical Interview Round 1 with cloud focus questions",
+      "status": "Pending HR Review",
+      "created_at": "2026-09-24T17:01:33.908Z",
+      "reviewed_by": null,
+      "review_notes": null
+    },
+    {
+      "id": 2,
+      "target_type": "employee",
+      "target_id": 1,
+      "target_name": "Rahul Verma",
+      "recommendation_type": "Career Discussion & Upskilling",
+      "finding": "Elevated workforce risk detected (Score 68 / 100 - HIGH RISK).",
+      "reason": "Tri-factor risk convergence: declining engagement (54%), attendance dip (72%), and cloud architecture skill gap.",
+      "action": "Schedule HRBP Career Alignment Session & enroll in Cloud Architecture learning track",
+      "status": "Pending HR Review",
+      "created_at": "2026-09-24T14:01:33.910Z",
+      "reviewed_by": null,
+      "review_notes": null
+    },
+    {
+      "id": 3,
+      "target_type": "candidate",
+      "target_id": 2,
+      "target_name": "Rahul Mehta",
+      "candidate_score": 92,
+      "recommendation_type": "Fast-Track Offer Pipeline",
+      "finding": "Exceptional 92% match for Senior Frontend Developer with proven design system impact.",
+      "reason": "Surpasses requirements in React, TypeScript, and web performance; minimal gap.",
+      "action": "Proceed directly to Final Architectural Round",
+      "status": "Approved",
+      "created_at": "2026-09-23T19:01:33.910Z",
+      "reviewed_by": "HR Director Sarah Jenkins",
+      "review_notes": "Fast-tracked due to competing offers."
+    },
+    {
+      "id": 4,
+      "target_type": "employee",
+      "target_id": 4,
+      "target_name": "Riya Gupta",
+      "recommendation_type": "Upskilling & Mentorship",
+      "finding": "Risk score 64 (HIGH RISK) due to automation skill transition stall.",
+      "reason": "Manual QA role evolving towards automation; low attendance and engagement correlate with lack of modern tooling support.",
+      "action": "Pair with Senior SDET mentor and approve Playwright Pro certification funding",
+      "status": "Pending HR Review",
+      "created_at": "2026-09-24T11:01:33.910Z",
+      "reviewed_by": null,
+      "review_notes": null
+    }
+  ],
+  "onboarding": [
+    {
+      "id": 1,
+      "employee_id": 2,
+      "employee_name": "Aarav Singh",
+      "role": "Backend Developer",
+      "start_date": "2026-08-01",
+      "detected_skill_gaps": [
+        "Docker",
+        "AWS",
+        "Kubernetes"
+      ],
+      "overall_progress": 60,
+      "learning_path": [
+        {
+          "week": 1,
+          "topic": "Docker Basics & Containerization",
+          "status": "Completed",
+          "score": 92,
+          "completed_at": "2026-08-07"
+        },
+        {
+          "week": 2,
+          "topic": "AWS Fundamentals & S3/EC2 Integration",
+          "status": "Completed",
+          "score": 88,
+          "completed_at": "2026-08-14"
+        },
+        {
+          "week": 3,
+          "topic": "Cloud Deployment & CI/CD Pipelines",
+          "status": "In Progress",
+          "score": null,
+          "completed_at": null
+        },
+        {
+          "week": 4,
+          "topic": "Kubernetes Cluster Architecture & Helm",
+          "status": "Upcoming",
+          "score": null,
+          "completed_at": null
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "employee_id": 1,
+      "employee_name": "Rahul Verma",
+      "role": "Backend Software Engineer",
+      "start_date": "2026-09-15",
+      "detected_skill_gaps": [
+        "Cloud Architecture",
+        "Terraform",
+        "Distributed Caching"
+      ],
+      "overall_progress": 25,
+      "learning_path": [
+        {
+          "week": 1,
+          "topic": "AWS Well-Architected Framework",
+          "status": "Completed",
+          "score": 85,
+          "completed_at": "2026-09-22"
+        },
+        {
+          "week": 2,
+          "topic": "Infrastructure as Code with Terraform",
+          "status": "In Progress",
+          "score": null,
+          "completed_at": null
+        },
+        {
+          "week": 3,
+          "topic": "Distributed Systems & Redis Caching",
+          "status": "Upcoming",
+          "score": null,
+          "completed_at": null
+        },
+        {
+          "week": 4,
+          "topic": "Microservices Resilience & Circuit Breakers",
+          "status": "Upcoming",
+          "score": null,
+          "completed_at": null
+        }
+      ]
+    }
+  ]
+}
