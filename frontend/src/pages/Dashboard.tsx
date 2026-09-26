@@ -1,330 +1,484 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
-  Users,
-  UserCheck,
-  AlertTriangle,
-  Briefcase,
   Sparkles,
+  AlertTriangle,
   ArrowRight,
+  TrendingUp,
+  Activity,
+  ShieldAlert,
+  Zap,
+  CheckCircle2,
+  Users,
+  Compass,
+  Sliders,
   ChevronRight,
-  FileText,
-  BarChart3
+  RefreshCw,
+  Layers,
+  MapPin,
+  Clock
 } from "lucide-react";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
   RadarChart,
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
-  Radar
+  Radar,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip
 } from "recharts";
-import { StatCard } from "../components/StatCard";
-import { dashboardApi } from "../services/api";
+import { MOCK_INSIGHTS, MOCK_EMPLOYEES, AIInsight } from "../data/mockData";
 
 export const Dashboard: React.FC = () => {
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const [selectedSeverity, setSelectedSeverity] = useState<string>("ALL");
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  useEffect(() => {
-    dashboardApi
-      .getMetrics()
-      .then((res) => setData(res))
-      .catch((err) => console.error("Error loading dashboard metrics:", err))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading && !data) {
-    return (
-      <div className="p-8 flex items-center justify-center min-h-[60vh]">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-teal-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-xs text-slate-500 font-bold">Orchestrating Workforce Intelligence...</p>
-        </div>
-      </div>
-    );
-  }
-
-  const stats = data?.stats || {
-    total_candidates: 124,
-    total_employees: 38,
-    high_risk_count: 12,
-    open_jobs_count: 7
-  };
-
-  const insights = data?.insights || [
-    {
-      id: 1,
-      badge: "Urgent Attention",
-      badgeColor: "rose",
-      title: "3 employees show high-risk signals",
-      description: "Elevated attrition indicators in Engineering & QA driven by engagement dips and skill transition barriers.",
-      primary_target: "Rahul Verma (Engineering)",
-      action_link: "/employees/1"
-    },
-    {
-      id: 2,
-      badge: "Capability Gap",
-      badgeColor: "amber",
-      title: "14 employees have skill gaps",
-      description: "Concentrated around Cloud Architecture (AWS/Terraform) and Modern Test Automation frameworks.",
-      primary_target: "Cloud & Automation Cohorts",
-      action_link: "/onboarding"
-    },
-    {
-      id: 3,
-      badge: "Strong Talent Signal",
-      badgeColor: "emerald",
-      title: "8 candidates strongly match open jobs",
-      description: "Priya Sharma (87% match) and Rahul Mehta (92% match) ready for final technical review.",
-      primary_target: "Priya Sharma (Backend Developer)",
-      action_link: "/recruitment"
-    }
+  const radarData = [
+    { subject: "Flight Risk", Engineering: 78, Operations: 45, Product: 25, DataAI: 35, fullMark: 100 },
+    { subject: "Workload Overload", Engineering: 92, Operations: 88, Product: 62, DataAI: 74, fullMark: 100 },
+    { subject: "Skill Coverage Deficit", Engineering: 64, Operations: 72, Product: 40, DataAI: 82, fullMark: 100 },
+    { subject: "Compensation Disparity", Engineering: 82, Operations: 54, Product: 42, DataAI: 60, fullMark: 100 },
+    { subject: "Single Point Failure", Engineering: 88, Operations: 65, Product: 38, DataAI: 48, fullMark: 100 },
   ];
 
-  const pipeline = data?.pipeline || [];
-  const workforceHealth = data?.workforce_health || [];
+  const filteredInsights = MOCK_INSIGHTS.filter((insight) => {
+    if (selectedSeverity === "ALL") return true;
+    return insight.severity === selectedSeverity;
+  });
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => setIsRefreshing(false), 600);
+  };
+
+  const contributoryFactors = [
+    { label: "Performance Velocity", score: 95, status: "Optimal", color: "from-blue-500 to-cyan-400" },
+    { label: "Retention Health Index", score: 92, status: "Stable", color: "from-emerald-500 to-cyan-400" },
+    { label: "Compensation Parity", score: 91, status: "Healthy", color: "from-cyan-500 to-blue-600" },
+    { label: "Skill Alignment", score: 88, status: "Good", color: "from-sky-500 to-indigo-500" },
+    { label: "Sentiment Equilibrium", score: 86, status: "Normal", color: "from-blue-600 to-cyan-400" },
+    { label: "Workload Balance", score: 78, status: "Overloaded", color: "from-amber-500 to-rose-500" },
+  ];
 
   return (
-    <div className="p-6 lg:p-8 space-y-7 max-w-7xl mx-auto">
-      {/* Hero Banner matching the Reference Photo: Deep Dark Teal with glowing wave elements */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-7 lg:p-8 rounded-3xl bg-gradient-to-r from-[#0d2a2f] via-[#0f383f] to-[#124b54] text-white shadow-xl relative overflow-hidden">
-        {/* Ambient Teal Glow wave */}
-        <div className="absolute top-0 right-0 w-[450px] h-full bg-gradient-to-l from-teal-400/15 via-teal-500/10 to-transparent pointer-events-none" />
-        <div className="absolute -bottom-10 right-24 w-64 h-64 bg-teal-400/10 rounded-full blur-2xl pointer-events-none" />
+    <div className="space-y-6 pb-12">
+      {/* Top Banner Ticker with Telemetry Indicators */}
+      <div className="p-4 rounded-2xl bg-gradient-to-r from-[#0b1533] via-[#091129] to-[#070e24] border border-[#162752] flex flex-wrap items-center justify-between gap-4 shadow-xl">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-inner">
+            <Activity className="w-5 h-5 animate-pulse" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400">
+                AI COMMAND CENTER
+              </span>
+              <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">
+                12,482 NODES MONITORED
+              </span>
+            </div>
+            <div className="text-sm font-bold text-white tracking-tight">
+              Enterprise Continuous Workforce Telemetry & Risk Mitigation
+            </div>
+          </div>
+        </div>
 
-        <div className="relative z-10 space-y-2">
-          {/* Breadcrumb row from reference */}
-          <div className="flex items-center gap-2 text-xs font-semibold text-teal-300">
-            <span className="uppercase tracking-wider">AUTONOMOUS HR INTELLIGENCE</span>
-            <span>&gt;</span>
-            <span className="flex items-center gap-1.5 text-teal-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Live Telemetry Active
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleRefresh}
+            className={`p-2 rounded-xl bg-[#0a142c] border border-[#172750] text-slate-300 hover:text-cyan-400 transition-all ${
+              isRefreshing ? "animate-spin text-cyan-400" : ""
+            }`}
+            title="Refresh Telemetry"
+          >
+            <RefreshCw className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={() => navigate("/app/scenarios")}
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-xs shadow-md shadow-blue-500/20 hover:scale-[1.02] transition-all"
+          >
+            <Sliders className="w-3.5 h-3.5" />
+            <span>Simulate 'What If'</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Primary Row: Circular Health Score & Contributory Factors + Risk Radar */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left: Circular Health Score & 6 Contributory Factors */}
+        <div className="lg:col-span-7 rounded-2xl bg-[#070e24] border border-[#152342] p-6 shadow-xl relative overflow-hidden">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-base font-bold text-white flex items-center gap-2">
+                <span>Autonomous Workforce Health Index</span>
+                <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">
+                  REAL-TIME
+                </span>
+              </h2>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Aggregated Bayesian score synthesized across 6 organizational indicators.
+              </p>
+            </div>
+            <span className="text-xs font-mono text-emerald-400 font-bold bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-800">
+              ↑ +2.3% this quarter
             </span>
           </div>
 
-          <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-white">
-            Good Morning, HR Team 👋
-          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
+            {/* SVG Circular Radial Progress */}
+            <div className="sm:col-span-5 flex flex-col items-center justify-center p-4">
+              <div className="relative w-44 h-44 flex items-center justify-center">
+                <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
+                  {/* Track circle */}
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="52"
+                    stroke="#0b1736"
+                    strokeWidth="10"
+                    fill="none"
+                  />
+                  {/* Progress circle (94.7% of 2*PI*52 ≈ 326.7) */}
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="52"
+                    stroke="url(#healthGrad)"
+                    strokeWidth="10"
+                    strokeDasharray="326.7"
+                    strokeDashoffset="17.3"
+                    strokeLinecap="round"
+                    fill="none"
+                    className="transition-all duration-1000 ease-out"
+                  />
+                  <defs>
+                    <linearGradient id="healthGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#3b82f6" />
+                      <stop offset="50%" stopColor="#00f0ff" />
+                      <stop offset="100%" stopColor="#10b981" />
+                    </linearGradient>
+                  </defs>
+                </svg>
 
-          <p className="text-xs text-teal-100/80 max-w-2xl leading-relaxed font-medium">
-            AI reasoning engines synthesized 124 active candidates, 38 internal profiles, and 5 HR policy corpora. 3 recommendations await human review.
-          </p>
-        </div>
-
-        {/* CTA Buttons matching reference photo */}
-        <div className="relative z-10 flex flex-wrap items-center gap-3">
-          <Link
-            to="/recommendations"
-            className="inline-flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-white text-slate-900 hover:bg-slate-50 text-xs font-bold shadow-lg transition-all hover:scale-[1.02]"
-          >
-            <Sparkles className="w-4 h-4 text-teal-600" />
-            <span>Review AI Approvals</span>
-            <ChevronRight className="w-4 h-4 text-slate-400 ml-1" />
-          </Link>
-
-          <Link
-            to="/policy"
-            className="inline-flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold border border-white/20 backdrop-blur-xs transition-all hover:scale-[1.02]"
-          >
-            <FileText className="w-4 h-4 text-teal-200" />
-            <span>Ask Policy AI</span>
-            <ChevronRight className="w-4 h-4 text-white/50 ml-1" />
-          </Link>
-        </div>
-      </div>
-
-      {/* Primary KPI Metrics: Clean White 3D Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          title="CANDIDATES"
-          value={stats.total_candidates}
-          subtitle="Screened across open positions"
-          icon={Users}
-          trend="↑ 18% this month"
-          accentColor="teal"
-        />
-        <StatCard
-          title="EMPLOYEES"
-          value={stats.total_employees}
-          subtitle="Tracked with telemetry & OKRs"
-          icon={UserCheck}
-          trend="↑ 96% retention rate"
-          accentColor="blue"
-        />
-        <StatCard
-          title="HIGH RISK SIGNALS"
-          value={stats.high_risk_count}
-          subtitle="Attrition & disengagement alerts"
-          icon={AlertTriangle}
-          trend="Action required"
-          trendUp={false}
-          accentColor="rose"
-        />
-        <StatCard
-          title="OPEN JOBS"
-          value={stats.open_jobs_count}
-          subtitle="Active recruitment requisitions"
-          icon={Briefcase}
-          trend="↑ 2 priority roles"
-          accentColor="teal"
-        />
-      </div>
-
-      {/* AI Workforce Insights Panel from Reference Photo */}
-      <div className="p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-4">
-        <div className="flex flex-wrap items-center justify-between pb-3 border-b border-slate-100 gap-2">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-[#e6f7f5] text-teal-600">
-              <BarChart3 className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-slate-900 tracking-tight">AI Workforce Insights</h3>
-              <p className="text-xs text-slate-500 font-medium">Cross-source signals synthesized by WorkforceIQ Orchestrator</p>
-            </div>
-          </div>
-          <span className="text-[11px] px-3 py-1 rounded-full bg-emerald-100/70 text-emerald-800 border border-emerald-300/80 font-bold">
-            Reasoning Engine v2.4
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
-          {insights.map((ins: any) => {
-            const isRose = ins.badge?.includes("Urgent") || ins.badgeColor === "rose";
-            const isAmber = ins.badge?.includes("Capability") || ins.badgeColor === "amber";
-
-            return (
-              <Link
-                key={ins.id}
-                to={ins.action_link}
-                className="p-4 rounded-2xl bg-[#f7faf9] border border-slate-200/80 hover:border-teal-400 hover:bg-white transition-all duration-200 group flex flex-col justify-between shadow-2xs"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="flex items-center gap-1.5 text-[11px] font-bold">
-                      <span
-                        className={`w-2 h-2 rounded-full ${
-                          isRose ? "bg-rose-500" : isAmber ? "bg-amber-500" : "bg-emerald-500"
-                        }`}
-                      />
-                      <span className={isRose ? "text-rose-700" : isAmber ? "text-amber-800" : "text-emerald-800"}>
-                        {ins.badge}
-                      </span>
-                    </span>
-                  </div>
-                  <h4 className="text-sm font-bold text-slate-900 group-hover:text-teal-700 transition-colors mb-1">
-                    {ins.title}
-                  </h4>
-                  <p className="text-xs text-slate-600 leading-relaxed font-medium">{ins.description}</p>
+                {/* Score centered in circle */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                  <span className="text-3xl font-black font-mono text-white tracking-tight">
+                    94.7
+                  </span>
+                  <span className="text-[10px] font-mono text-emerald-400 font-bold tracking-widest uppercase">
+                    HEALTHY
+                  </span>
+                  <span className="text-[9px] text-slate-500 font-mono mt-0.5">
+                    Target: &gt;90.0
+                  </span>
                 </div>
-
-                <div className="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between text-xs text-teal-700 font-bold">
-                  <span>{ins.primary_target}</span>
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Hiring Pipeline Funnel & Workforce Health Radar */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Pipeline Funnel */}
-        <div className="lg:col-span-6 p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-            <div>
-              <h3 className="text-base font-bold text-slate-900">Hiring Pipeline Funnel</h3>
-              <p className="text-xs text-slate-500 font-medium">Applications to final candidate selections</p>
-            </div>
-            <Link to="/recruitment" className="text-xs font-bold text-teal-600 hover:text-teal-700 flex items-center gap-1">
-              <span>View Requisitions</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={pipeline} margin={{ top: 20, right: 20, left: -10, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2eeed" />
-                <XAxis dataKey="stage" stroke="#64748b" fontSize={11} tickLine={false} />
-                <YAxis stroke="#64748b" fontSize={11} tickLine={false} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#ffffff",
-                    borderColor: "#cbd5e1",
-                    borderRadius: "12px",
-                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
-                    fontSize: "12px"
-                  }}
-                  itemStyle={{ color: "#0f172a", fontWeight: "bold" }}
-                />
-                <Bar dataKey="count" fill="#0d9488" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className="grid grid-cols-4 gap-2 pt-2 border-t border-slate-100 text-center">
-            {pipeline.map((p: any, idx: number) => (
-              <div key={idx} className="p-2 rounded-xl bg-[#f7faf9] border border-slate-200/60">
-                <div className="text-[10px] text-slate-500 font-bold uppercase">{p.stage}</div>
-                <div className="text-base font-black text-slate-900">{p.count}</div>
               </div>
-            ))}
+            </div>
+
+            {/* 6 Contributory Factors breakdown bars */}
+            <div className="sm:col-span-7 space-y-2.5">
+              <div className="text-[10px] font-mono uppercase text-slate-400 font-bold tracking-wider mb-2">
+                CONTRIBUTORY WEIGHT FACTORS
+              </div>
+
+              {contributoryFactors.map((f, idx) => (
+                <div key={idx} className="space-y-1">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-slate-300 font-medium">{f.label}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-cyan-400 font-bold text-xs">{f.score}%</span>
+                      <span className={`text-[9px] font-mono px-1 rounded ${
+                        f.score < 80 ? "text-amber-400 bg-amber-950" : "text-slate-400"
+                      }`}>
+                        {f.status}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="w-full h-1.5 bg-[#0b1736] rounded-full overflow-hidden">
+                    <div
+                      className={`h-full bg-gradient-to-r ${f.color} rounded-full transition-all duration-700`}
+                      style={{ width: `${f.score}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Workforce Health Dimensions */}
-        <div className="lg:col-span-6 p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+        {/* Right: Real-time Multi-Axis Risk Radar */}
+        <div className="lg:col-span-5 rounded-2xl bg-[#070e24] border border-[#152342] p-6 shadow-xl flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-2">
             <div>
-              <h3 className="text-base font-bold text-slate-900">Workforce Health Radar</h3>
-              <p className="text-xs text-slate-500 font-medium">Telemetry across performance, attendance, engagement, growth</p>
+              <h2 className="text-base font-bold text-white flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-cyan-400" />
+                <span>Multi-Axis Risk Radar</span>
+              </h2>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Stress testing 5 systemic failure modes across engineering.
+              </p>
             </div>
-            <Link to="/employees" className="text-xs font-bold text-teal-600 hover:text-teal-700 flex items-center gap-1">
-              <span>Employee Directory</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800">
+              HIGH EXPOSURE
+            </span>
           </div>
 
-          <div className="h-64 w-full">
+          {/* Recharts Radar */}
+          <div className="h-64 w-full flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
-              <RadarChart data={workforceHealth}>
-                <PolarGrid stroke="#e2eeed" />
-                <PolarAngleAxis dataKey="metric" stroke="#64748b" fontSize={11} fontWeight={600} />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#94a3b8" fontSize={10} />
-                <Radar name="Current Score" dataKey="score" stroke="#0d9488" fill="#0d9488" fillOpacity={0.3} />
-                <Radar name="Benchmark Target" dataKey="target" stroke="#0284c7" fill="#0284c7" fillOpacity={0.15} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#ffffff",
-                    borderColor: "#cbd5e1",
-                    borderRadius: "12px",
-                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
-                    fontSize: "12px"
-                  }}
-                  itemStyle={{ color: "#0f172a" }}
+              <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
+                <PolarGrid stroke="#152342" />
+                <PolarAngleAxis
+                  dataKey="subject"
+                  tick={{ fill: "#94a3b8", fontSize: 10, fontFamily: "monospace" }}
+                />
+                <PolarRadiusAxis
+                  angle={30}
+                  domain={[0, 100]}
+                  tick={{ fill: "#475569", fontSize: 9 }}
+                  stroke="#152342"
+                />
+                <Radar
+                  name="Engineering"
+                  dataKey="Engineering"
+                  stroke="#00f0ff"
+                  fill="#00f0ff"
+                  fillOpacity={0.25}
+                />
+                <Radar
+                  name="Operations"
+                  dataKey="Operations"
+                  stroke="#3b82f6"
+                  fill="#3b82f6"
+                  fillOpacity={0.15}
                 />
               </RadarChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="grid grid-cols-4 gap-2 pt-2 border-t border-slate-100 text-center">
-            {workforceHealth.map((wh: any, idx: number) => (
-              <div key={idx} className="p-2 rounded-xl bg-[#f7faf9] border border-slate-200/60">
-                <div className="text-[10px] text-slate-500 font-bold uppercase">{wh.metric}</div>
-                <div className={`text-base font-black ${wh.score < 70 ? "text-amber-600" : "text-slate-900"}`}>
-                  {wh.score}%
+          <div className="pt-3 border-t border-[#132042] flex items-center justify-between text-[11px]">
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1.5 text-cyan-400 font-mono">
+                <span className="w-2 h-2 rounded-full bg-cyan-400" /> Engineering (Active)
+              </span>
+              <span className="flex items-center gap-1.5 text-blue-400 font-mono">
+                <span className="w-2 h-2 rounded-full bg-blue-500" /> Operations
+              </span>
+            </div>
+            <button
+              onClick={() => navigate("/app/decisions")}
+              className="text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1"
+            >
+              <span>Remediate</span>
+              <ArrowRight className="w-3 h-3" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Secondary Row: AI Insights Stream & Workforce Distribution */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left: AI Insights Feed */}
+        <div className="lg:col-span-8 rounded-2xl bg-[#070e24] border border-[#152342] p-6 shadow-xl space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#142345] pb-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-cyan-400" />
+                <h3 className="text-base font-bold text-white">
+                  Autonomous AI Insights & Actions
+                </h3>
+              </div>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Proactive signals detected by neural graph analysis requiring manager or HR review.
+              </p>
+            </div>
+
+            {/* Severity Filter Tabs */}
+            <div className="flex items-center gap-1.5 bg-[#040815] p-1 rounded-xl border border-[#142345] text-xs font-mono">
+              {["ALL", "CRITICAL", "HIGH", "MEDIUM"].map((sev) => (
+                <button
+                  key={sev}
+                  onClick={() => setSelectedSeverity(sev)}
+                  className={`px-2.5 py-1 rounded-lg transition-colors font-bold text-[10px] ${
+                    selectedSeverity === sev
+                      ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  {sev}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Insights List */}
+          <div className="space-y-3.5">
+            {filteredInsights.map((insight) => (
+              <div
+                key={insight.id}
+                className="p-4 rounded-xl bg-[#091228] border border-[#162752] hover:border-cyan-500/40 transition-all group"
+              >
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span
+                      className={`text-[9px] font-mono uppercase px-2 py-0.5 rounded font-black tracking-wider border ${
+                        insight.severity === "CRITICAL"
+                          ? "bg-rose-950 text-rose-300 border-rose-800"
+                          : insight.severity === "HIGH"
+                          ? "bg-amber-950 text-amber-300 border-amber-800"
+                          : "bg-blue-950 text-blue-300 border-blue-800"
+                      }`}
+                    >
+                      {insight.severity}
+                    </span>
+                    <span className="font-mono text-[10px] text-slate-400">
+                      {insight.department} • {insight.affectedGroup}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/40 font-bold">
+                      {insight.confidence}% Confidence
+                    </span>
+                    <span className="text-[10px] text-slate-500 font-mono">
+                      {insight.timestamp}
+                    </span>
+                  </div>
+                </div>
+
+                <h4 className="text-sm font-bold text-white mb-1.5 group-hover:text-cyan-300 transition-colors">
+                  {insight.title}
+                </h4>
+
+                <p className="text-xs text-slate-300 leading-relaxed mb-3">
+                  {insight.summary}
+                </p>
+
+                {/* Key Drivers */}
+                <div className="mb-3 p-2.5 rounded-lg bg-[#060b19] border border-[#121f3d]">
+                  <div className="text-[10px] font-mono uppercase text-slate-400 font-bold mb-1 flex items-center gap-1">
+                    <Zap className="w-3 h-3 text-cyan-400" />
+                    <span>Telemetry Drivers</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {insight.drivers.map((d, idx) => (
+                      <span
+                        key={idx}
+                        className="text-[10px] px-2 py-0.5 rounded bg-[#0e1b3d] text-slate-200 border border-[#1a2f66]"
+                      >
+                        {d}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom Impact & Action */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-[#132042]">
+                  <div className="text-xs text-emerald-300 flex items-center gap-1.5 font-medium">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Expected: {insight.expectedOutcome}</span>
+                  </div>
+
+                  <button
+                    onClick={() => navigate(insight.actionUrl)}
+                    className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 hover:shadow-md hover:shadow-cyan-500/20 text-white text-xs font-bold transition-all shrink-0"
+                  >
+                    <span>Execute Action</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Right: Workforce Distribution & Node Telemetry */}
+        <div className="lg:col-span-4 space-y-6">
+          {/* Distribution card */}
+          <div className="rounded-2xl bg-[#070e24] border border-[#152342] p-5 shadow-xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-cyan-400" />
+                <span>Workforce Hub Distribution</span>
+              </h3>
+              <span className="text-[10px] font-mono text-slate-400">12,482 Total</span>
+            </div>
+
+            <div className="space-y-3.5 text-xs">
+              {[
+                { name: "Bengaluru HQ (Tier-1 Core)", count: 5420, percent: 43.4, color: "bg-cyan-400" },
+                { name: "Gurugram Tech Hub", count: 3890, percent: 31.2, color: "bg-blue-500" },
+                { name: "Hyderabad Systems Lab", count: 1840, percent: 14.7, color: "bg-sky-400" },
+                { name: "Distributed Remote (Global)", count: 1332, percent: 10.7, color: "bg-indigo-400" },
+              ].map((hub, idx) => (
+                <div key={idx} className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-300 font-medium">{hub.name}</span>
+                    <span className="font-mono text-slate-200 font-bold">{hub.count.toLocaleString()} ({hub.percent}%)</span>
+                  </div>
+                  <div className="w-full h-1.5 bg-[#0b1736] rounded-full overflow-hidden">
+                    <div className={`h-full ${hub.color} rounded-full`} style={{ width: `${hub.percent}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 pt-3 border-t border-[#132042] flex items-center justify-between text-[11px] text-slate-400">
+              <span>Diversity Index: <strong className="text-white">38.4%</strong></span>
+              <span>Remote Flex: <strong className="text-cyan-400">54.2%</strong></span>
+            </div>
+          </div>
+
+          {/* Quick Shortcuts Card */}
+          <div className="rounded-2xl bg-gradient-to-b from-[#0b1633] to-[#070e24] border border-cyan-500/30 p-5 shadow-xl">
+            <h3 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-cyan-400" />
+              <span>Autonomous Quick Actions</span>
+            </h3>
+            <p className="text-xs text-slate-300 mb-4">
+              Direct access into high-impact simulation and governance workflows.
+            </p>
+
+            <div className="space-y-2">
+              <button
+                onClick={() => navigate("/app/employees")}
+                className="w-full p-2.5 rounded-xl bg-[#091228] hover:bg-[#101e42] border border-[#162752] text-left flex items-center justify-between text-xs transition-colors"
+              >
+                <div>
+                  <div className="font-bold text-white">Employee Dossier Drawer</div>
+                  <div className="text-slate-400 text-[10px]">Inspect 8 high-velocity performers & flight risks</div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-cyan-400" />
+              </button>
+
+              <button
+                onClick={() => navigate("/app/decisions")}
+                className="w-full p-2.5 rounded-xl bg-[#091228] hover:bg-[#101e42] border border-[#162752] text-left flex items-center justify-between text-xs transition-colors"
+              >
+                <div>
+                  <div className="font-bold text-white">7-Step Autonomous Loop</div>
+                  <div className="text-slate-400 text-[10px]">Verify pending Engineering Retention approval</div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-cyan-400" />
+              </button>
+
+              <button
+                onClick={() => navigate("/app/skills")}
+                className="w-full p-2.5 rounded-xl bg-[#091228] hover:bg-[#101e42] border border-[#162752] text-left flex items-center justify-between text-xs transition-colors"
+              >
+                <div>
+                  <div className="font-bold text-white">Skills Matrix & Heatmap</div>
+                  <div className="text-slate-400 text-[10px]">Close 38% Vector DB gap in Team Alpha</div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-cyan-400" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
