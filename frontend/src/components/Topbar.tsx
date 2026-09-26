@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Search,
   Bell,
   Sparkles,
   ChevronDown,
   Menu,
-  Shield,
   Activity,
   Layers,
   CheckCircle2,
-  X
+  Volume2,
+  VolumeX,
+  Tv
 } from "lucide-react";
 import { MOCK_NOTIFICATIONS } from "../data/mockData";
+import { CommandPalette } from "./CommandPalette";
+import { sound } from "../utils/sound";
 
 interface TopbarProps {
   onToggleSidebar?: () => void;
@@ -30,8 +33,28 @@ export const Topbar: React.FC<TopbarProps> = ({
 }) => {
   const [selectedOrg, setSelectedOrg] = useState("Global Tech Corp (India & Remote)");
   const [isOrgDropdownOpen, setIsOrgDropdownOpen] = useState(false);
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(sound.isEnabled());
+  const [pitchMode, setPitchMode] = useState(false);
+
+  // Global Ctrl+K / Cmd+K listener
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        sound.playClick();
+        setCommandPaletteOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const toggleSound = () => {
+    const next = sound.toggle();
+    setSoundEnabled(next);
+  };
 
   const orgs = [
     "Global Tech Corp (India & Remote)",
@@ -44,11 +67,18 @@ export const Topbar: React.FC<TopbarProps> = ({
 
   return (
     <>
-      <header className="sticky top-0 z-30 h-16 bg-[#030712]/80 backdrop-blur-xl border-b border-[#152342] px-4 lg:px-8 flex items-center justify-between">
+      <header className={`sticky top-0 z-30 h-16 backdrop-blur-xl border-b px-4 lg:px-8 flex items-center justify-between transition-colors ${
+        pitchMode
+          ? "bg-[#020510]/95 border-cyan-500/40 shadow-lg shadow-cyan-950/40"
+          : "bg-[#030712]/80 border-[#152342]"
+      }`}>
         {/* Left Section: Mobile toggle & Breadcrumb */}
         <div className="flex items-center gap-3">
           <button
-            onClick={onToggleSidebar}
+            onClick={() => {
+              sound.playClick();
+              onToggleSidebar?.();
+            }}
             className="p-2 rounded-lg bg-[#0b1429] text-slate-300 hover:text-cyan-400 hover:bg-[#122045] lg:hidden transition-colors"
           >
             <Menu className="w-5 h-5" />
@@ -61,6 +91,11 @@ export const Topbar: React.FC<TopbarProps> = ({
                 <Activity className="w-3 h-3 text-cyan-400 animate-pulse" />
                 TELEMETRY LIVE
               </span>
+              {pitchMode && (
+                <span className="hidden md:inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-700 font-bold animate-pulse">
+                  ★ PITCH / DEMO MODE
+                </span>
+              )}
             </h1>
             <p className="text-[11px] text-slate-400 hidden md:block">
               {pageSubtitle}
@@ -69,15 +104,18 @@ export const Topbar: React.FC<TopbarProps> = ({
         </div>
 
         {/* Center / Right Section */}
-        <div className="flex items-center gap-2 sm:gap-4">
-          {/* Quick Search trigger */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Quick Search trigger (Command Palette) */}
           <button
-            onClick={() => setSearchModalOpen(true)}
-            className="hidden md:flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-[#091124] border border-[#172554] text-xs text-slate-400 hover:text-slate-200 hover:border-cyan-500/40 transition-all shadow-sm w-44 lg:w-60 justify-between"
+            onClick={() => {
+              sound.playClick();
+              setCommandPaletteOpen(true);
+            }}
+            className="hidden md:flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-[#091124] border border-[#172554] text-xs text-slate-400 hover:text-slate-200 hover:border-cyan-500/40 transition-all shadow-sm w-44 lg:w-60 justify-between group"
           >
             <div className="flex items-center gap-2">
-              <Search className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Search talent, skills, risks...</span>
+              <Search className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
+              <span className="truncate">Search commands, talent...</span>
             </div>
             <kbd className="text-[10px] font-mono bg-[#111d3d] px-1.5 py-0.5 rounded text-slate-400 border border-slate-700">
               ⌘K
@@ -87,7 +125,10 @@ export const Topbar: React.FC<TopbarProps> = ({
           {/* Org Selector */}
           <div className="relative hidden xl:block">
             <button
-              onClick={() => setIsOrgDropdownOpen(!isOrgDropdownOpen)}
+              onClick={() => {
+                sound.playClick();
+                setIsOrgDropdownOpen(!isOrgDropdownOpen);
+              }}
               className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#091124] border border-[#172554] text-xs text-slate-300 hover:border-cyan-500/30 transition-colors"
             >
               <Layers className="w-3.5 h-3.5 text-cyan-400" />
@@ -104,6 +145,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                   <button
                     key={org}
                     onClick={() => {
+                      sound.playClick();
                       setSelectedOrg(org);
                       setIsOrgDropdownOpen(false);
                     }}
@@ -121,9 +163,40 @@ export const Topbar: React.FC<TopbarProps> = ({
             )}
           </div>
 
+          {/* Audio Synthesizer Toggle */}
+          <button
+            onClick={toggleSound}
+            className="p-2 rounded-xl bg-[#091124] border border-[#172554] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors"
+            title={soundEnabled ? "Telemetry Sound Enabled (Click to Mute)" : "Telemetry Sound Muted (Click to Enable)"}
+          >
+            {soundEnabled ? <Volume2 className="w-4 h-4 text-cyan-400" /> : <VolumeX className="w-4 h-4 text-slate-500" />}
+          </button>
+
+          {/* Pitch Mode Toggle */}
+          <button
+            onClick={() => {
+              sound.playClick();
+              setPitchMode(!pitchMode);
+            }}
+            className={`p-2 rounded-xl border text-xs flex items-center gap-1.5 transition-all hidden sm:flex ${
+              pitchMode
+                ? "bg-indigo-950 text-indigo-300 border-indigo-500/60 shadow-lg shadow-indigo-500/20"
+                : "bg-[#091124] border-[#172554] text-slate-400 hover:text-slate-200"
+            }`}
+            title="Toggle Pitch / Presentation Mode"
+          >
+            <Tv className="w-4 h-4" />
+            <span className="text-[11px] font-semibold hidden md:inline">
+              {pitchMode ? "Pitch Mode ON" : "Pitch Mode"}
+            </span>
+          </button>
+
           {/* Copilot Launcher CTA */}
           <button
-            onClick={onOpenCopilot}
+            onClick={() => {
+              sound.playClick();
+              onOpenCopilot?.();
+            }}
             className="flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-sky-600 to-cyan-500 text-white text-xs font-semibold shadow-lg shadow-blue-500/25 hover:shadow-cyan-400/35 hover:scale-[1.02] transition-all"
           >
             <Sparkles className="w-3.5 h-3.5 text-cyan-200 animate-spin-slow" />
@@ -133,7 +206,10 @@ export const Topbar: React.FC<TopbarProps> = ({
 
           {/* Notifications Bell */}
           <button
-            onClick={onOpenNotifications}
+            onClick={() => {
+              sound.playClick();
+              onOpenNotifications?.();
+            }}
             className="relative p-2 rounded-xl bg-[#091124] border border-[#172554] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors"
             title="Telemetry Alerts"
           >
@@ -147,88 +223,11 @@ export const Topbar: React.FC<TopbarProps> = ({
         </div>
       </header>
 
-      {/* Quick Search Modal */}
-      {searchModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-start justify-center pt-20 p-4 animate-in fade-in">
-          <div className="w-full max-w-2xl bg-[#080e21] border border-cyan-500/30 rounded-2xl shadow-2xl overflow-hidden">
-            <div className="p-4 border-b border-[#172554] flex items-center gap-3">
-              <Search className="w-5 h-5 text-cyan-400" />
-              <input
-                type="text"
-                autoFocus
-                placeholder="Search employees, skills, risk signals, or simulated scenarios..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-transparent text-sm text-white placeholder-slate-500 focus:outline-none"
-              />
-              <button
-                onClick={() => setSearchModalOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="p-4 max-h-96 overflow-y-auto space-y-4">
-              <div>
-                <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold mb-2">
-                  High Risk Alerts
-                </div>
-                <div className="space-y-1.5">
-                  <div
-                    onClick={() => {
-                      setSearchModalOpen(false);
-                      window.location.href = "/app/employees";
-                    }}
-                    className="p-2.5 rounded-xl bg-[#0e1a38] hover:bg-[#142552] border border-[#1b2f66] cursor-pointer flex items-center justify-between text-xs"
-                  >
-                    <div>
-                      <div className="font-semibold text-rose-300">Rahul Verma (78/100 Attrition Risk)</div>
-                      <div className="text-slate-400 text-[11px]">Engineering • Senior Backend • 93% Workload</div>
-                    </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800">
-                      CRITICAL
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold mb-2">
-                  Suggested Actions
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => {
-                      setSearchModalOpen(false);
-                      window.location.href = "/app/scenarios";
-                    }}
-                    className="p-3 rounded-xl bg-[#0a1329] hover:bg-[#101f42] border border-[#152342] text-left text-xs"
-                  >
-                    <div className="font-bold text-cyan-300">Workforce Simulator</div>
-                    <div className="text-slate-400 text-[11px]">Test Q4 salary & remote work balance</div>
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSearchModalOpen(false);
-                      window.location.href = "/app/decisions";
-                    }}
-                    className="p-3 rounded-xl bg-[#0a1329] hover:bg-[#101f42] border border-[#152342] text-left text-xs"
-                  >
-                    <div className="font-bold text-cyan-300">7-Step Autonomous Loop</div>
-                    <div className="text-slate-400 text-[11px]">Review pending engineering retention action</div>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-3 bg-[#050917] border-t border-[#172554] flex items-center justify-between text-[11px] text-slate-400">
-              <span>Press <kbd className="font-mono bg-slate-800 px-1 rounded text-slate-300">ESC</kbd> to exit</span>
-              <span className="font-mono text-cyan-400">Autonomous Index Ready</span>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Global Command Palette */}
+      <CommandPalette
+        isOpen={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+      />
     </>
   );
 };

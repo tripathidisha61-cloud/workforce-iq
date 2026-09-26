@@ -12,6 +12,10 @@ const employeesRoutes = require("./routes/employees");
 const policyRoutes = require("./routes/policy");
 const recommendationsRoutes = require("./routes/recommendations");
 const onboardingRoutes = require("./routes/onboarding");
+const telemetryRoutes = require("./routes/telemetry");
+const scenariosRoutes = require("./routes/scenarios");
+const copilotRoutes = require("./routes/copilot");
+const decisionsRoutes = require("./routes/decisions");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -44,6 +48,10 @@ app.use("/api/employees", employeesRoutes);
 app.use("/api/policy", policyRoutes);
 app.use("/api/recommendations", recommendationsRoutes);
 app.use("/api/onboarding", onboardingRoutes);
+app.use("/api/telemetry", telemetryRoutes);
+app.use("/api/scenarios", scenariosRoutes);
+app.use("/api/copilot", copilotRoutes);
+app.use("/api/decisions", decisionsRoutes);
 
 // Serve Built React Frontend (All-in-One Unified Server)
 const frontendDistPath = path.join(__dirname, "../frontend/dist");

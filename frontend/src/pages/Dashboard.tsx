@@ -34,6 +34,8 @@ import {
   Tooltip
 } from "recharts";
 import { MOCK_INSIGHTS, MOCK_EMPLOYEES, AIInsight } from "../data/mockData";
+import { LiveTelemetryTicker } from "../components/LiveTelemetryTicker";
+import { sound } from "../utils/sound";
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -102,9 +104,51 @@ export const Dashboard: React.FC = () => {
     ]
   };
 
+  const teamHealthData = [
+    {
+      name: "Engineering Core",
+      headcount: "5,420 talent",
+      sprintLoad: 92,
+      riskScore: 78,
+      lead: "Aarav Sharma",
+      status: "High Stress",
+      color: "border-rose-900/60 bg-[#0c1224] text-rose-300"
+    },
+    {
+      name: "Operations & SRE",
+      headcount: "2,140 talent",
+      sprintLoad: 88,
+      riskScore: 45,
+      lead: "Rahul Verma",
+      status: "Elevated",
+      color: "border-amber-900/60 bg-[#0c1224] text-amber-300"
+    },
+    {
+      name: "Data & Applied AI",
+      headcount: "2,082 talent",
+      sprintLoad: 74,
+      riskScore: 35,
+      lead: "Priya Patel",
+      status: "Optimal",
+      color: "border-emerald-900/60 bg-[#0c1224] text-emerald-300"
+    },
+    {
+      name: "Product & Design",
+      headcount: "2,840 talent",
+      sprintLoad: 62,
+      riskScore: 25,
+      lead: "Vikram Malhotra",
+      status: "Balanced",
+      color: "border-blue-900/60 bg-[#0c1224] text-blue-300"
+    }
+  ];
+
   return (
     <div className="space-y-6 pb-12">
-      {/* Top Banner Ticker with Telemetry Indicators */}
+      {/* 1. Real-time Live Telemetry Ticker */}
+      <LiveTelemetryTicker />
+
+      {/* 2. Top Banner Ticker with Telemetry Indicators */}
       <div className="p-4 rounded-2xl bg-gradient-to-r from-[#0b1533] via-[#091129] to-[#070e24] border border-[#162752] flex flex-wrap items-center justify-between gap-4 shadow-xl">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-inner">
@@ -127,7 +171,10 @@ export const Dashboard: React.FC = () => {
 
         <div className="flex items-center gap-3">
           <button
-            onClick={handleRefresh}
+            onClick={() => {
+              sound.playClick();
+              handleRefresh();
+            }}
             className={`p-2 rounded-xl bg-[#0a142c] border border-[#172750] text-slate-300 hover:text-cyan-400 transition-all ${
               isRefreshing ? "animate-spin text-cyan-400" : ""
             }`}
@@ -137,13 +184,54 @@ export const Dashboard: React.FC = () => {
           </button>
 
           <button
-            onClick={() => navigate("/app/scenarios")}
+            onClick={() => {
+              sound.playClick();
+              navigate("/app/scenarios");
+            }}
             className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-xs shadow-md shadow-blue-500/20 hover:scale-[1.02] transition-all"
           >
             <Sliders className="w-3.5 h-3.5" />
             <span>Simulate 'What If'</span>
           </button>
         </div>
+      </div>
+
+      {/* 3. Team Health & Sprint Load Matrix */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {teamHealthData.map((team, idx) => (
+          <div
+            key={idx}
+            onClick={() => {
+              sound.playClick();
+              navigate("/app/employees");
+            }}
+            className={`p-4 rounded-2xl border transition-all cursor-pointer hover:border-cyan-500/50 hover:scale-[1.02] shadow-lg ${team.color}`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold text-white">{team.name}</span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold border border-current">
+                {team.status}
+              </span>
+            </div>
+            <div className="text-[11px] text-slate-400 mb-2">
+              Lead: <span className="text-slate-200">{team.lead}</span> • {team.headcount}
+            </div>
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-[11px] font-mono">
+                <span className="text-slate-400">Sprint Load:</span>
+                <span className="text-white font-bold">{team.sprintLoad}%</span>
+              </div>
+              <div className="w-full bg-[#060a16] h-1.5 rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full ${
+                    team.sprintLoad > 90 ? "bg-rose-500" : team.sprintLoad > 80 ? "bg-amber-500" : "bg-cyan-400"
+                  }`}
+                  style={{ width: `${team.sprintLoad}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Primary Row: Circular Health Score & 6 Contributory Factors + Risk Radar */}
