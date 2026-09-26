@@ -6,12 +6,10 @@ import {
   CheckCircle2,
   AlertTriangle,
   Award,
-  Send,
   RefreshCw,
-  MessageSquare,
   Cpu
 } from "lucide-react";
-import { interviewApi, recruitmentApi, recommendationsApi } from "../services/api";
+import { interviewApi, recruitmentApi } from "../services/api";
 
 export const Interview: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -79,11 +77,13 @@ export const Interview: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-            <Mic className="w-6 h-6 text-indigo-400" />
+          <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-200">
+              <Mic className="w-5 h-5" />
+            </div>
             <span>Adaptive Interview Agent</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-sm text-slate-500 mt-1">
             Role-tailored technical questions generated dynamically from candidate resumes and detected skill gaps.
           </p>
         </div>
@@ -92,7 +92,7 @@ export const Interview: React.FC = () => {
           <select
             value={selectedCandidateId}
             onChange={(e) => setSelectedCandidateId(Number(e.target.value))}
-            className="bg-slate-800 border border-slate-700 text-xs text-white font-bold rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="bg-white border border-slate-200 text-xs text-slate-800 font-semibold rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xs"
           >
             {candidates.map((c) => (
               <option key={c.id} value={c.id}>
@@ -104,7 +104,7 @@ export const Interview: React.FC = () => {
           <button
             onClick={handleGenerate}
             disabled={generating}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/20"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm shadow-blue-500/20 transition-all"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${generating ? "animate-spin" : ""}`} />
             <span>Regenerate Questions</span>
@@ -116,18 +116,18 @@ export const Interview: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Generated Questions */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="p-5 rounded-3xl bg-slate-800/60 border border-slate-700/70 shadow-xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-700/60 pb-3">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <div className="flex flex-wrap items-center justify-between border-b border-slate-100 pb-3 gap-2">
               <div>
-                <h3 className="text-base font-bold text-white">
+                <h3 className="text-base font-bold text-slate-900">
                   Personalized Interview Guide: {currentCandidate.name}
                 </h3>
-                <p className="text-xs text-slate-400">
-                  Target Role: <strong className="text-indigo-300">{currentCandidate.job_title}</strong> • Adaptive Gap Probe:{" "}
-                  <strong className="text-amber-300">{questionsData?.adaptive_gap_focus || "AWS Cloud Deployment"}</strong>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Target Role: <strong className="text-blue-700">{currentCandidate.job_title}</strong> • Adaptive Gap Probe:{" "}
+                  <strong className="text-amber-700">{questionsData?.adaptive_gap_focus || "AWS Cloud Deployment"}</strong>
                 </p>
               </div>
-              <span className="text-[11px] px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-semibold">
+              <span className="text-[11px] px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-semibold">
                 {questionsData?.questions?.length || 4} Questions
               </span>
             </div>
@@ -136,34 +136,34 @@ export const Interview: React.FC = () => {
               {(questionsData?.questions || []).map((q: any, idx: number) => (
                 <div
                   key={q.id || idx}
-                  className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition-all space-y-2.5"
+                  className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition-all space-y-2.5"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-400">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-blue-700">
                       Question {idx + 1} • {q.category}
                     </span>
                     <span
-                      className={`text-[10px] px-2 py-0.5 rounded font-bold ${
+                      className={`text-[10px] px-2 py-0.5 rounded-md font-bold ${
                         q.difficulty.includes("Gap")
-                          ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                          : "bg-slate-800 text-slate-300"
+                          ? "bg-amber-100 text-amber-800 border border-amber-200"
+                          : "bg-slate-200/80 text-slate-700"
                       }`}
                     >
                       {q.difficulty}
                     </span>
                   </div>
 
-                  <p className="text-sm font-bold text-white leading-relaxed">{q.question}</p>
+                  <p className="text-sm font-semibold text-slate-900 leading-relaxed">{q.question}</p>
 
-                  <div className="pt-2 border-t border-slate-800/80">
-                    <div className="text-[10px] font-bold uppercase text-slate-400 mb-1">
+                  <div className="pt-2 border-t border-slate-200/70">
+                    <div className="text-[10px] font-bold uppercase text-slate-500 mb-1">
                       Expected Evaluation Signals:
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {(q.expected_competencies || []).map((comp: string, i: number) => (
                         <span
                           key={i}
-                          className="text-[11px] px-2 py-0.5 rounded-md bg-slate-800/80 text-slate-300 border border-slate-700/60"
+                          className="text-[11px] px-2 py-0.5 rounded-md bg-white text-slate-700 border border-slate-200 shadow-xs font-medium"
                         >
                           ✓ {comp}
                         </span>
@@ -178,23 +178,23 @@ export const Interview: React.FC = () => {
 
         {/* Right: Interview Evaluation & AI Feedback */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="p-6 rounded-3xl bg-slate-800/60 border border-slate-700/70 shadow-xl space-y-5">
-            <div className="flex items-center justify-between border-b border-slate-700/60 pb-3">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-5">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-emerald-400" />
-                <h3 className="text-base font-bold text-white">Interview Evaluation Simulator</h3>
+                <Award className="w-5 h-5 text-blue-600" />
+                <h3 className="text-base font-bold text-slate-900">Interview Evaluation Simulator</h3>
               </div>
-              <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                 Real-Time Scoring
               </span>
             </div>
 
             {/* Interactive Score Sliders */}
-            <div className="space-y-3 bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+            <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
               <div>
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-slate-300 font-semibold">Technical Knowledge (40%)</span>
-                  <span className="text-indigo-400 font-bold">{customScores.technical}%</span>
+                  <span className="text-slate-600 font-semibold">Technical Knowledge (40%)</span>
+                  <span className="text-blue-700 font-bold">{customScores.technical}%</span>
                 </div>
                 <input
                   type="range"
@@ -204,14 +204,14 @@ export const Interview: React.FC = () => {
                   onChange={(e) =>
                     setCustomScores({ ...customScores, technical: Number(e.target.value) })
                   }
-                  className="w-full accent-indigo-500 cursor-pointer"
+                  className="w-full accent-blue-600 cursor-pointer"
                 />
               </div>
 
               <div>
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-slate-300 font-semibold">Communication & Clarity (30%)</span>
-                  <span className="text-emerald-400 font-bold">{customScores.communication}%</span>
+                  <span className="text-slate-600 font-semibold">Communication & Clarity (30%)</span>
+                  <span className="text-emerald-700 font-bold">{customScores.communication}%</span>
                 </div>
                 <input
                   type="range"
@@ -221,14 +221,14 @@ export const Interview: React.FC = () => {
                   onChange={(e) =>
                     setCustomScores({ ...customScores, communication: Number(e.target.value) })
                   }
-                  className="w-full accent-emerald-500 cursor-pointer"
+                  className="w-full accent-emerald-600 cursor-pointer"
                 />
               </div>
 
               <div>
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-slate-300 font-semibold">Problem Solving & Architecture (30%)</span>
-                  <span className="text-amber-400 font-bold">{customScores.problem_solving}%</span>
+                  <span className="text-slate-600 font-semibold">Problem Solving & Architecture (30%)</span>
+                  <span className="text-amber-700 font-bold">{customScores.problem_solving}%</span>
                 </div>
                 <input
                   type="range"
@@ -238,7 +238,7 @@ export const Interview: React.FC = () => {
                   onChange={(e) =>
                     setCustomScores({ ...customScores, problem_solving: Number(e.target.value) })
                   }
-                  className="w-full accent-amber-500 cursor-pointer"
+                  className="w-full accent-amber-600 cursor-pointer"
                 />
               </div>
             </div>
@@ -246,48 +246,52 @@ export const Interview: React.FC = () => {
             <button
               onClick={handleEvaluate}
               disabled={evaluating}
-              className="w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all"
+              className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm shadow-blue-500/20 flex items-center justify-center gap-2 transition-all"
             >
               <Sparkles className="w-4 h-4" />
               <span>{evaluating ? "Synthesizing Evaluation..." : "Compute Interview Evaluation & AI Feedback"}</span>
             </button>
 
             {evaluationData && (
-              <div className="space-y-4 pt-3 border-t border-slate-700/60 animate-fadeIn">
-                <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/30">
+              <div className="space-y-4 pt-3 border-t border-slate-100 animate-fadeIn">
+                <div className="flex items-center justify-between p-4 rounded-xl bg-blue-50/70 border border-blue-200">
                   <div>
-                    <div className="text-[10px] font-bold uppercase text-slate-400">Overall Composite Rating</div>
-                    <div className="text-sm font-bold text-emerald-400 mt-0.5">{evaluationData.status}</div>
+                    <div className="text-[10px] font-bold uppercase text-slate-500">Overall Composite Rating</div>
+                    <div className="text-sm font-bold text-blue-700 mt-0.5">{evaluationData.status}</div>
                   </div>
-                  <div className="text-3xl font-black text-white">{evaluationData.overall_score}%</div>
+                  <div className="text-3xl font-extrabold text-blue-900">{evaluationData.overall_score}%</div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-emerald-950/20 border border-emerald-500/20 space-y-1.5">
-                  <div className="text-xs font-bold text-emerald-400">✓ Key Interview Strengths</div>
-                  <ul className="space-y-1 text-xs text-slate-300">
+                <div className="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-1.5">
+                  <div className="text-xs font-bold text-emerald-800 flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Key Interview Strengths
+                  </div>
+                  <ul className="space-y-1 text-xs text-emerald-900">
                     {(evaluationData.feedback?.strengths || []).map((st: string, i: number) => (
                       <li key={i}>• {st}</li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-amber-950/20 border border-amber-500/20 space-y-1.5">
-                  <div className="text-xs font-bold text-amber-400">⚠ Areas for Improvement</div>
-                  <ul className="space-y-1 text-xs text-slate-300">
+                <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200 space-y-1.5">
+                  <div className="text-xs font-bold text-amber-800 flex items-center gap-1">
+                    <AlertTriangle className="w-3.5 h-3.5" /> Areas for Improvement
+                  </div>
+                  <ul className="space-y-1 text-xs text-amber-900">
                     {(evaluationData.feedback?.areas_for_improvement || []).map((imp: string, i: number) => (
                       <li key={i}>• {imp}</li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-indigo-950/30 border border-indigo-500/30 text-xs text-indigo-200">
-                  <strong className="text-white block mb-1">AI Final Recommendation:</strong>
+                <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-950">
+                  <strong className="text-blue-900 block mb-1">AI Final Recommendation:</strong>
                   {evaluationData.feedback?.recommendation}
                 </div>
 
                 <button
                   onClick={() => navigate("/recommendations")}
-                  className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold"
+                  className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm shadow-blue-500/20"
                 >
                   Proceed to HR Approval Screen
                 </button>

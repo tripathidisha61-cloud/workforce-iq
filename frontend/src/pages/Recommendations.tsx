@@ -46,38 +46,40 @@ export const Recommendations: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-            <Sparkles className="w-6 h-6 text-indigo-400" />
+          <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-200">
+              <Sparkles className="w-5 h-5" />
+            </div>
             <span>AI Recommendations & Human Approval</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-sm text-slate-500 mt-1">
             Human-in-the-Loop governance gateway: Review, authorize, or modify AI-generated talent recommendations.
           </p>
         </div>
 
         {/* Summary Counters */}
         <div className="flex items-center gap-3">
-          <div className="px-3.5 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs font-bold text-amber-300 flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5" />
+          <div className="px-3.5 py-2 rounded-xl bg-amber-50 border border-amber-200 text-xs font-bold text-amber-800 flex items-center gap-1.5 shadow-xs">
+            <Clock className="w-3.5 h-3.5 text-amber-600" />
             <span>{pendingCount} Pending Review</span>
           </div>
-          <div className="px-3.5 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5" />
+          <div className="px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 flex items-center gap-1.5 shadow-xs">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             <span>{approvedCount} Approved</span>
           </div>
         </div>
       </div>
 
       {/* Responsible AI Safeguard Notice */}
-      <div className="p-4 rounded-2xl bg-indigo-950/30 border border-indigo-500/30 flex items-center gap-3 text-xs text-indigo-200">
-        <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
+      <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200 flex items-center gap-3 text-xs text-blue-950 shadow-xs">
+        <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0" />
         <div>
-          <strong className="text-white">Responsible AI Governance Safeguard:</strong> AI recommendations are decision-support signals and require explicit human review. Sensitive demographic attributes are excluded from scoring models, and no candidate rejection or employee action is executed autonomously.
+          <strong className="text-blue-900">Responsible AI Governance Safeguard:</strong> AI recommendations are decision-support signals and require explicit human review. Sensitive demographic attributes are excluded from scoring models, and no candidate rejection or employee action is executed autonomously.
         </div>
       </div>
 
       {/* Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800">
+      <div className="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-200">
         <div className="flex items-center gap-2">
           {["All", "Pending HR Review", "Approved", "Rejected"].map((st) => (
             <button
@@ -85,8 +87,8 @@ export const Recommendations: React.FC = () => {
               onClick={() => setStatusFilter(st)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-colors ${
                 statusFilter === st
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
-                  : "bg-slate-800/70 text-slate-400 hover:text-slate-200"
+                  ? "bg-blue-600 text-white shadow-sm shadow-blue-500/20"
+                  : "bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
               }`}
             >
               {st}
@@ -95,15 +97,15 @@ export const Recommendations: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400 font-semibold">Category:</span>
+          <span className="text-xs text-slate-500 font-semibold">Category:</span>
           {["All", "candidate", "employee"].map((tp) => (
             <button
               key={tp}
               onClick={() => setTypeFilter(tp)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold capitalize transition-colors ${
                 typeFilter === tp
-                  ? "bg-slate-700 text-white"
-                  : "bg-slate-800/40 text-slate-400 hover:text-slate-200"
+                  ? "bg-slate-800 text-white"
+                  : "bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
               }`}
             >
               {tp === "All" ? "All Signals" : `${tp}s`}

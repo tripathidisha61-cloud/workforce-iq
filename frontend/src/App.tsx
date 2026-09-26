@@ -33,14 +33,14 @@ const AppLayout: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100">
+    <div className="flex min-h-screen bg-slate-50 text-slate-900">
       <Sidebar currentUser={user} />
       <div className="flex-1 flex flex-col min-w-0">
         <Navbar
           userRole={user.role}
           onRoleChange={(r) => setUser({ ...user, role: r })}
         />
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto bg-slate-50">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/recruitment" element={<Recruitment />} />

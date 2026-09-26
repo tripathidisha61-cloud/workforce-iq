@@ -7,11 +7,7 @@ import {
   Briefcase,
   Sparkles,
   ArrowRight,
-  TrendingUp,
-  Activity,
-  ShieldAlert,
   ChevronRight,
-  CheckCircle2,
   FileText
 } from "lucide-react";
 import {
@@ -47,8 +43,8 @@ export const Dashboard: React.FC = () => {
     return (
       <div className="p-8 flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-xs text-slate-400 font-medium">Orchestrating Workforce Intelligence...</p>
+          <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-xs text-slate-500 font-bold">Orchestrating Workforce Intelligence...</p>
         </div>
       </div>
     );
@@ -64,28 +60,27 @@ export const Dashboard: React.FC = () => {
   const insights = data?.insights || [];
   const pipeline = data?.pipeline || [];
   const workforceHealth = data?.workforce_health || [];
-  const departmentRisks = data?.department_risks || [];
 
   return (
     <div className="p-6 lg:p-8 space-y-8 max-w-7xl mx-auto">
-      {/* Welcome Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/20 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-full bg-gradient-to-l from-indigo-500/10 to-transparent pointer-events-none" />
-        <div className="relative z-10 space-y-1">
+      {/* Welcome Banner - Rich Corporate Blue */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 lg:p-8 rounded-3xl bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 text-white shadow-lg shadow-blue-500/15 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-full bg-gradient-to-l from-white/10 to-transparent pointer-events-none" />
+        <div className="relative z-10 space-y-1.5">
           <div className="flex items-center gap-2">
-            <span className="text-xs uppercase font-extrabold tracking-wider text-indigo-400">
+            <span className="text-xs uppercase font-extrabold tracking-wider text-blue-200">
               Autonomous HR Intelligence
             </span>
-            <span className="text-slate-600">•</span>
-            <span className="text-xs text-emerald-400 font-semibold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Live Telemetry
+            <span className="text-blue-300">?</span>
+            <span className="text-xs text-emerald-300 font-bold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse" />
+              Live Telemetry Active
             </span>
           </div>
-          <h2 className="text-2xl lg:text-3xl font-black text-white tracking-tight">
-            Good Morning, HR Team 👋
+          <h2 className="text-2xl lg:text-3xl font-black tracking-tight">
+            Good Morning, HR Team ??
           </h2>
-          <p className="text-xs text-slate-300 max-w-2xl">
+          <p className="text-xs text-blue-100 max-w-2xl leading-relaxed">
             AI reasoning engines synthesized 124 active candidates, 38 internal profiles, and 5 HR policy corpora. 3 recommendations await human review.
           </p>
         </div>
@@ -93,22 +88,22 @@ export const Dashboard: React.FC = () => {
         <div className="relative z-10 flex items-center gap-3">
           <Link
             to="/recommendations"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/30 transition-all hover:scale-105"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-blue-700 hover:bg-blue-50 text-xs font-bold shadow-md shadow-black/10 transition-all hover:scale-105"
           >
-            <Sparkles className="w-4 h-4" />
+            <Sparkles className="w-4 h-4 text-blue-600" />
             <span>Review AI Approvals</span>
           </Link>
           <Link
             to="/policy"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-800/80 hover:bg-blue-800 text-white text-xs font-semibold border border-blue-400/40 transition-colors"
           >
-            <FileText className="w-4 h-4 text-indigo-400" />
+            <FileText className="w-4 h-4 text-blue-200" />
             <span>Ask Policy AI</span>
           </Link>
         </div>
       </div>
 
-      {/* Primary KPI Metrics */}
+      {/* Primary KPI Metrics in Clean White Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Candidates"
@@ -116,8 +111,7 @@ export const Dashboard: React.FC = () => {
           subtitle="Screened across open positions"
           icon={Users}
           trend="+18% this month"
-          accentColor="indigo"
-          onClick={() => {}}
+          accentColor="blue"
         />
         <StatCard
           title="Employees"
@@ -146,19 +140,19 @@ export const Dashboard: React.FC = () => {
         />
       </div>
 
-      {/* AI Workforce Insights Card (Explicitly requested in PPT / prompt) */}
-      <div className="p-6 rounded-3xl bg-slate-800/60 border border-slate-700/70 backdrop-blur-xl shadow-xl space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-700/60">
+      {/* AI Workforce Insights Card */}
+      <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-base font-extrabold text-white tracking-tight">AI Workforce Insights</h3>
-              <p className="text-xs text-slate-400">Cross-source signals synthesized by WorkforceIQ Orchestrator</p>
+              <h3 className="text-base font-extrabold text-slate-900 tracking-tight">AI Workforce Insights</h3>
+              <p className="text-xs text-slate-500 font-medium">Cross-source signals synthesized by WorkforceIQ Orchestrator</p>
             </div>
           </div>
-          <span className="text-[11px] px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-semibold font-mono">
+          <span className="text-[11px] px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-bold font-mono">
             Reasoning Engine v2.4
           </span>
         </div>
@@ -168,22 +162,22 @@ export const Dashboard: React.FC = () => {
             <Link
               key={ins.id}
               to={ins.action_link}
-              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-slate-600 transition-all duration-200 group flex flex-col justify-between"
+              className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200/80 hover:border-blue-300 hover:bg-blue-50/40 transition-all duration-200 group flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xl">{ins.icon}</span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-white text-slate-700 border border-slate-200 shadow-2xs">
                     {ins.badge}
                   </span>
                 </div>
-                <h4 className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors mb-1">
+                <h4 className="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors mb-1">
                   {ins.title}
                 </h4>
-                <p className="text-xs text-slate-400 leading-relaxed">{ins.description}</p>
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">{ins.description}</p>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-indigo-400 font-semibold">
+              <div className="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between text-xs text-blue-700 font-bold">
                 <span>{ins.primary_target}</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
@@ -195,13 +189,13 @@ export const Dashboard: React.FC = () => {
       {/* Charts Section: Hiring Pipeline & Workforce Health */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Hiring Pipeline Funnel */}
-        <div className="lg:col-span-6 p-6 rounded-3xl bg-slate-800/60 border border-slate-700/70 shadow-xl space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-700/60">
+        <div className="lg:col-span-6 p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div>
-              <h3 className="text-base font-bold text-white">Hiring Pipeline Funnel</h3>
-              <p className="text-xs text-slate-400">Applications to final candidate selections</p>
+              <h3 className="text-base font-extrabold text-slate-900">Hiring Pipeline Funnel</h3>
+              <p className="text-xs text-slate-500 font-medium">Applications to final candidate selections</p>
             </div>
-            <Link to="/recruitment" className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
+            <Link to="/recruitment" className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1">
               <span>View Requisitions</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -210,41 +204,42 @@ export const Dashboard: React.FC = () => {
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={pipeline} margin={{ top: 20, right: 20, left: -10, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.5} />
-                <XAxis dataKey="stage" stroke="#94a3b8" fontSize={11} tickLine={false} />
-                <YAxis stroke="#94a3b8" fontSize={11} tickLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <XAxis dataKey="stage" stroke="#64748b" fontSize={11} tickLine={false} />
+                <YAxis stroke="#64748b" fontSize={11} tickLine={false} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#0f172a",
-                    borderColor: "#334155",
+                    backgroundColor: "#ffffff",
+                    borderColor: "#cbd5e1",
                     borderRadius: "12px",
+                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
                     fontSize: "12px"
                   }}
-                  itemStyle={{ color: "#e2e8f0" }}
+                  itemStyle={{ color: "#0f172a", fontWeight: "bold" }}
                 />
-                <Bar dataKey="count" fill="#6366f1" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="count" fill="#2563eb" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="grid grid-cols-4 gap-2 pt-2 border-t border-slate-700/50 text-center">
+          <div className="grid grid-cols-4 gap-2 pt-2 border-t border-slate-100 text-center">
             {pipeline.map((p: any, idx: number) => (
-              <div key={idx} className="p-2 rounded-xl bg-slate-900/40">
-                <div className="text-[10px] text-slate-400 font-semibold">{p.stage}</div>
-                <div className="text-base font-extrabold text-white">{p.count}</div>
+              <div key={idx} className="p-2 rounded-xl bg-slate-50 border border-slate-100">
+                <div className="text-[10px] text-slate-500 font-bold uppercase">{p.stage}</div>
+                <div className="text-base font-extrabold text-slate-900">{p.count}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Workforce Health Dimensions */}
-        <div className="lg:col-span-6 p-6 rounded-3xl bg-slate-800/60 border border-slate-700/70 shadow-xl space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-700/60">
+        <div className="lg:col-span-6 p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div>
-              <h3 className="text-base font-bold text-white">Workforce Health Radar</h3>
-              <p className="text-xs text-slate-400">Telemetry across performance, attendance, engagement, growth</p>
+              <h3 className="text-base font-extrabold text-slate-900">Workforce Health Radar</h3>
+              <p className="text-xs text-slate-500 font-medium">Telemetry across performance, attendance, engagement, growth</p>
             </div>
-            <Link to="/employees" className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
+            <Link to="/employees" className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1">
               <span>Employee Directory</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -253,29 +248,30 @@ export const Dashboard: React.FC = () => {
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={workforceHealth}>
-                <PolarGrid stroke="#334155" />
-                <PolarAngleAxis dataKey="metric" stroke="#94a3b8" fontSize={11} />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#475569" fontSize={10} />
-                <Radar name="Current Score" dataKey="score" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.4} />
-                <Radar name="Benchmark Target" dataKey="target" stroke="#10b981" fill="#10b981" fillOpacity={0.15} />
+                <PolarGrid stroke="#e2e8f0" />
+                <PolarAngleAxis dataKey="metric" stroke="#64748b" fontSize={11} fontWeight={600} />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#94a3b8" fontSize={10} />
+                <Radar name="Current Score" dataKey="score" stroke="#2563eb" fill="#2563eb" fillOpacity={0.3} />
+                <Radar name="Benchmark Target" dataKey="target" stroke="#059669" fill="#059669" fillOpacity={0.15} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#0f172a",
-                    borderColor: "#334155",
+                    backgroundColor: "#ffffff",
+                    borderColor: "#cbd5e1",
                     borderRadius: "12px",
+                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
                     fontSize: "12px"
                   }}
-                  itemStyle={{ color: "#e2e8f0" }}
+                  itemStyle={{ color: "#0f172a" }}
                 />
               </RadarChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="grid grid-cols-4 gap-2 pt-2 border-t border-slate-700/50 text-center">
+          <div className="grid grid-cols-4 gap-2 pt-2 border-t border-slate-100 text-center">
             {workforceHealth.map((wh: any, idx: number) => (
-              <div key={idx} className="p-2 rounded-xl bg-slate-900/40">
-                <div className="text-[10px] text-slate-400 font-semibold">{wh.metric}</div>
-                <div className={`text-base font-extrabold ${wh.score < 70 ? "text-amber-400" : "text-white"}`}>
+              <div key={idx} className="p-2 rounded-xl bg-slate-50 border border-slate-100">
+                <div className="text-[10px] text-slate-500 font-bold uppercase">{wh.metric}</div>
+                <div className={`text-base font-extrabold ${wh.score < 70 ? "text-amber-600" : "text-slate-900"}`}>
                   {wh.score}%
                 </div>
               </div>
@@ -284,42 +280,42 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Demo Hero Shortcuts (Instant Judge Walkthrough) */}
-      <div className="p-6 rounded-3xl bg-indigo-950/20 border border-indigo-500/30 space-y-3">
-        <div className="flex items-center gap-2 text-indigo-300 font-bold text-sm">
-          <Sparkles className="w-4 h-4 text-indigo-400" />
+      {/* Demo Hero Shortcuts in White & Blue */}
+      <div className="p-6 rounded-3xl bg-blue-50/70 border border-blue-200/80 space-y-3">
+        <div className="flex items-center gap-2 text-blue-900 font-extrabold text-sm">
+          <Sparkles className="w-4 h-4 text-blue-600" />
           <span>Interactive Demo Verification Pathways (Hackathon Evaluation)</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <Link
             to="/recruitment/candidate/1"
-            className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 transition-all flex items-center justify-between"
+            className="p-3.5 rounded-xl bg-white border border-slate-200 hover:border-blue-300 transition-all flex items-center justify-between shadow-2xs"
           >
             <div>
-              <div className="text-xs font-bold text-white">Hero Candidate: Priya Sharma</div>
-              <div className="text-[11px] text-indigo-300">87% Match • Skill Breakdown • Interview Generation</div>
+              <div className="text-xs font-bold text-slate-900">Hero Candidate: Priya Sharma</div>
+              <div className="text-[11px] text-blue-700 font-medium">87% Match ? Skill Breakdown ? Interview Generation</div>
             </div>
-            <ArrowRight className="w-4 h-4 text-indigo-400" />
+            <ArrowRight className="w-4 h-4 text-blue-600" />
           </Link>
           <Link
             to="/employees/1"
-            className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/50 transition-all flex items-center justify-between"
+            className="p-3.5 rounded-xl bg-white border border-slate-200 hover:border-rose-300 transition-all flex items-center justify-between shadow-2xs"
           >
             <div>
-              <div className="text-xs font-bold text-white">Hero Employee: Rahul Verma</div>
-              <div className="text-[11px] text-rose-300">HIGH RISK (68) • Contributing Factors • Upskilling</div>
+              <div className="text-xs font-bold text-slate-900">Hero Employee: Rahul Verma</div>
+              <div className="text-[11px] text-rose-700 font-medium">HIGH RISK (68) ? Contributing Factors ? Upskilling</div>
             </div>
-            <ArrowRight className="w-4 h-4 text-rose-400" />
+            <ArrowRight className="w-4 h-4 text-rose-600" />
           </Link>
           <Link
             to="/policy"
-            className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-purple-500/50 transition-all flex items-center justify-between"
+            className="p-3.5 rounded-xl bg-white border border-slate-200 hover:border-blue-300 transition-all flex items-center justify-between shadow-2xs"
           >
             <div>
-              <div className="text-xs font-bold text-white">Policy RAG: Remote Work & Leave</div>
-              <div className="text-[11px] text-purple-300">Grounded Answers • Source Citations • Page References</div>
+              <div className="text-xs font-bold text-slate-900">Policy RAG: Remote Work & Leave</div>
+              <div className="text-[11px] text-indigo-700 font-medium">Grounded Answers ? Source Citations ? Page References</div>
             </div>
-            <ArrowRight className="w-4 h-4 text-purple-400" />
+            <ArrowRight className="w-4 h-4 text-indigo-600" />
           </Link>
         </div>
       </div>
