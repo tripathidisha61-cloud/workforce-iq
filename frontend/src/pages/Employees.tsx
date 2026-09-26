@@ -1,465 +1,381 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Search,
-  Filter,
-  UserCheck,
   AlertTriangle,
-  Sparkles,
-  ArrowRight,
-  X,
-  TrendingUp,
-  Briefcase,
-  Award,
-  Zap,
-  CheckCircle2,
-  Calendar,
-  Layers,
-  MapPin,
-  Clock,
   ShieldAlert,
-  Sliders
+  TrendingDown,
+  UserCheck,
+  Sparkles,
+  Send,
+  Filter,
+  Cpu,
+  CheckCircle2,
+  ArrowRight
 } from "lucide-react";
 import {
   LineChart,
   Line,
   XAxis,
   YAxis,
+  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  CartesianGrid
+  Legend
 } from "recharts";
-import { useNavigate } from "react-router-dom";
-import { MOCK_EMPLOYEES, Employee } from "../data/mockData";
+import { employeesApi, recommendationsApi } from "../services/api";
 
 export const Employees: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+  const [employees, setEmployees] = useState<any[]>([]);
   const [search, setSearch] = useState("");
-  const [selectedDept, setSelectedDept] = useState("ALL");
-  const [selectedRisk, setSelectedRisk] = useState("ALL");
-  const [activeEmployee, setActiveEmployee] = useState<Employee | null>(MOCK_EMPLOYEES[1]); // Rahul Verma initially
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
-  const [actionSuccessToast, setActionSuccessToast] = useState<string | null>(null);
+  const [departmentFilter, setDepartmentFilter] = useState("All");
+  const [selectedEmp, setSelectedEmp] = useState<any>(null);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [riskResult, setRiskResult] = useState<any>(null);
+  const [sentToApproval, setSentToApproval] = useState(false);
 
-  const departments = ["ALL", "Engineering", "Data & AI", "Product & Design", "Quality Engineering", "Operations"];
-  const risks = ["ALL", "HIGH", "MEDIUM", "LOW"];
+  useEffect(() => {
+    employeesApi.getEmployees().then((res) => {
+      const list = res || [];
+      setEmployees(list);
+      if (id) {
+        const found = list.find((e: any) => e.id === Number(id));
+        if (found) setSelectedEmp(found);
+      } else if (list.length > 0) {
+        setSelectedEmp(list[0]);
+      }
+    });
+  }, [id]);
 
-  const filteredEmployees = MOCK_EMPLOYEES.filter((emp) => {
-    const matchesSearch =
-      emp.name.toLowerCase().includes(search.toLowerCase()) ||
-      emp.role.toLowerCase().includes(search.toLowerCase()) ||
-      emp.id.toLowerCase().includes(search.toLowerCase());
-
-    const matchesDept = selectedDept === "ALL" || emp.department === selectedDept;
-    const matchesRisk = selectedRisk === "ALL" || emp.attritionRisk === selectedRisk;
-
-    return matchesSearch && matchesDept && matchesRisk;
-  });
-
-  const handleExecuteAction = (emp: Employee) => {
-    setActionSuccessToast(`Autonomous action initiated for ${emp.name}: Routed to People Ops governance gateway.`);
-    setTimeout(() => {
-      setActionSuccessToast(null);
-    }, 4500);
+  const handleRunRiskEngine = async (empId: number) => {
+    setAnalyzing(true);
+    setSentToApproval(false);
+    try {
+      const res = await employeesApi.analyzeRisk(empId);
+      setRiskResult(res.orchestration.data);
+    } finally {
+      setAnalyzing(false);
+    }
   };
 
+  useEffect(() => {
+    if (selectedEmp) {
+      handleRunRiskEngine(selectedEmp.id);
+    }
+  }, [selectedEmp?.id]);
+
+  const handleSendToApproval = async () => {
+    if (!selectedEmp) return;
+    await recommendationsApi.create({
+      target_type: "employee",
+      target_id: selectedEmp.id,
+      target_name: selectedEmp.name,
+      recommendation_type: "Career Discussion & Upskilling",
+      finding: `High workforce risk signal detected (Risk Score: ${selectedEmp.risk_score}/100 - ${selectedEmp.risk_level}).`,
+      reason: `Low engagement (${selectedEmp.engagement}%) combined with attendance dip (${selectedEmp.attendance}%) and skill gap.`,
+      action: `Schedule 1-on-1 Career Discussion & Enroll ${selectedEmp.name} in Cloud Upskilling`
+    });
+    setSentToApproval(true);
+  };
+
+  const filteredEmployees = employees.filter((e) => {
+    const matchesSearch =
+      e.name.toLowerCase().includes(search.toLowerCase()) ||
+      e.department.toLowerCase().includes(search.toLowerCase()) ||
+      e.role.toLowerCase().includes(search.toLowerCase());
+    const matchesDept = departmentFilter === "All" || e.department === departmentFilter;
+    return matchesSearch && matchesDept;
+  });
+
   return (
-    <div className="space-y-6 pb-12">
-      {/* Action Notification Toast */}
-      {actionSuccessToast && (
-        <div className="fixed top-20 right-8 z-50 p-4 rounded-xl bg-gradient-to-r from-emerald-950 to-[#071328] border border-emerald-500/50 text-white shadow-2xl flex items-center gap-3 animate-in slide-in-from-top duration-300">
-          <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-          <div className="text-xs">
-            <div className="font-bold text-emerald-300">Action Dispatched</div>
-            <div className="text-slate-300">{actionSuccessToast}</div>
-          </div>
-          <button
-            onClick={() => setActionSuccessToast(null)}
-            className="text-slate-400 hover:text-white p-1"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-      )}
-
-      {/* Header & Stats Banner */}
-      <div className="p-4 rounded-2xl bg-gradient-to-r from-[#0b1533] via-[#091129] to-[#070e24] border border-[#162752] flex flex-wrap items-center justify-between gap-4 shadow-xl">
+    <div className="p-6 lg:p-8 space-y-8 max-w-7xl mx-auto">
+      {/* Header & Search Controls */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400">
-              EMPLOYEE INTELLIGENCE & DOSSIERS
-            </span>
-            <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-blue-950 text-cyan-300 border border-blue-800">
-              8 ACTIVE PROFILES
-            </span>
-          </div>
-          <h2 className="text-base font-bold text-white tracking-tight mt-0.5">
-            Deep-Dive Talent Telemetry, Flight Risk Predictors & Prescriptive Interventions
+          <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+            <div className="p-2 rounded-2xl bg-teal-50 text-teal-600 border border-teal-200">
+              <UserCheck className="w-5 h-5" />
+            </div>
+            <span>Employee Intelligence & Risk Detection</span>
           </h2>
+          <p className="text-sm text-slate-500 mt-1">
+            Transparent multi-factor telemetry analysis for proactive retention and capability growth.
+          </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => navigate("/app/decisions")}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#091124] border border-[#172554] text-xs font-semibold text-slate-300 hover:text-white hover:border-cyan-500/40 transition-colors"
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search employees..."
+              className="bg-white border border-slate-200 text-xs text-slate-900 font-medium rounded-2xl pl-9 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-teal-500 shadow-xs w-56"
+            />
+          </div>
+
+          <select
+            value={departmentFilter}
+            onChange={(e) => setDepartmentFilter(e.target.value)}
+            className="bg-white border border-slate-200 text-xs text-slate-800 font-semibold rounded-2xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-teal-500 shadow-xs"
           >
-            <Zap className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Autonomous Decisions</span>
-          </button>
-          <button
-            onClick={() => navigate("/app/scenarios")}
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-xs shadow-md shadow-blue-500/20 hover:scale-[1.02] transition-all"
-          >
-            <Sliders className="w-3.5 h-3.5" />
-            <span>Scenario Simulator</span>
-          </button>
+            <option value="All">All Departments</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Product Design">Product Design</option>
+            <option value="Quality Engineering">Quality Engineering</option>
+          </select>
         </div>
       </div>
 
-      {/* Search & Filters Row */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
-        {/* Search */}
-        <div className="md:col-span-5 relative">
-          <Search className="w-4 h-4 text-cyan-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            placeholder="Search by name, role, ID, or key skill..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#070e24] border border-[#152342] focus:border-cyan-500/50 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none transition-colors"
-          />
-        </div>
-
-        {/* Department Filter Pills */}
-        <div className="md:col-span-7 flex flex-wrap items-center gap-1.5">
-          <div className="flex items-center gap-1 bg-[#070e24] p-1 rounded-xl border border-[#152342] text-[10px] font-mono overflow-x-auto max-w-full">
-            <span className="text-slate-500 px-2 uppercase font-bold">Dept:</span>
-            {departments.map((dept) => (
-              <button
-                key={dept}
-                onClick={() => setSelectedDept(dept)}
-                className={`px-2 py-1 rounded-lg transition-colors font-semibold ${
-                  selectedDept === dept
-                    ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
-                    : "text-slate-400 hover:text-white"
-                }`}
-              >
-                {dept}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-1 bg-[#070e24] p-1 rounded-xl border border-[#152342] text-[10px] font-mono">
-            <span className="text-slate-500 px-1 uppercase font-bold">Risk:</span>
-            {risks.map((risk) => (
-              <button
-                key={risk}
-                onClick={() => setSelectedRisk(risk)}
-                className={`px-2 py-1 rounded-lg transition-colors font-bold ${
-                  selectedRisk === risk
-                    ? risk === "HIGH"
-                      ? "bg-rose-500/20 text-rose-300 border border-rose-500/40"
-                      : risk === "MEDIUM"
-                      ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-                      : "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
-                    : "text-slate-400 hover:text-white"
-                }`}
-              >
-                {risk}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Main Grid: Employee Roster Cards + Slide-over Drawer */}
+      {/* Main Split View: Left Directory List, Right Deep Intelligence */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Roster Cards (Column 1-7 or full) */}
-        <div className={`${isDrawerOpen && activeEmployee ? "lg:col-span-7" : "lg:col-span-12"} space-y-3`}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            {filteredEmployees.map((emp) => {
-              const isSelected = activeEmployee?.id === emp.id && isDrawerOpen;
-              return (
+        {/* Left Directory List */}
+        <div className="lg:col-span-5 space-y-3">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-500 px-1">
+            Organization Roster ({filteredEmployees.length} Tracked)
+          </div>
+          {filteredEmployees.map((emp) => {
+            const isSelected = selectedEmp?.id === emp.id;
+            const isHigh = emp.risk_level === "HIGH";
+            const isMed = emp.risk_level === "MEDIUM";
+
+            return (
+              <div
+                key={emp.id}
+                onClick={() => setSelectedEmp(emp)}
+                className={`p-4 rounded-3xl border transition-all cursor-pointer ${
+                  isSelected
+                    ? "bg-teal-50/70 border-teal-500 shadow-sm"
+                    : "bg-white/95 border-slate-200 hover:border-slate-300 shadow-2xs"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2.5">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-teal-100 text-teal-800 font-bold flex items-center justify-center text-sm">
+                      {emp.name.charAt(0)}
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                        <span>{emp.name}</span>
+                        {emp.name.includes("Rahul") && (
+                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 font-bold">
+                            Demo Hero
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-xs text-slate-500">
+                        {emp.department} • {emp.role}
+                      </div>
+                    </div>
+                  </div>
+
+                  <span
+                    className={`px-2.5 py-1 rounded-xl text-[11px] font-bold border ${
+                      isHigh
+                        ? "bg-rose-50 text-rose-700 border-rose-200"
+                        : isMed
+                        ? "bg-amber-50 text-amber-700 border-amber-200"
+                        : "bg-emerald-50 text-emerald-700 border-emerald-200"
+                    }`}
+                  >
+                    Risk: {emp.risk_level}
+                  </span>
+                </div>
+
+                {/* Mini Telemetry Bar */}
+                <div className="grid grid-cols-4 gap-2 pt-2 border-t border-slate-100 text-center text-xs">
+                  <div>
+                    <span className="text-[10px] text-slate-500 block">Performance</span>
+                    <strong className="text-slate-800">{emp.performance}%</strong>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-500 block">Attendance</span>
+                    <strong className="text-slate-800">{emp.attendance}%</strong>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-500 block">Engagement</span>
+                    <strong className={emp.engagement < 60 ? "text-rose-600 font-bold" : "text-slate-800"}>
+                      {emp.engagement}%
+                    </strong>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-500 block">Skill Growth</span>
+                    <strong className="text-slate-800">{emp.skill_growth}%</strong>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Right Deep-Dive Intelligence View */}
+        <div className="lg:col-span-7">
+          {selectedEmp && (
+            <div className="p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-6">
+              {/* Top Profile Header */}
+              <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                <div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-teal-600">
+                    Employee Intelligence Dossier
+                  </span>
+                  <h3 className="text-2xl font-bold text-slate-900 mt-0.5">{selectedEmp.name}</h3>
+                  <p className="text-xs text-slate-500">
+                    {selectedEmp.role} • {selectedEmp.department} • Tenure: {selectedEmp.tenure_months} months
+                  </p>
+                </div>
+
                 <div
-                  key={emp.id}
-                  onClick={() => {
-                    setActiveEmployee(emp);
-                    setIsDrawerOpen(true);
-                  }}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer group relative ${
-                    isSelected
-                      ? "bg-[#0c1838] border-cyan-500/70 shadow-lg shadow-cyan-950/50"
-                      : "bg-[#070e24] border-[#152342] hover:border-cyan-500/30 hover:bg-[#091228]"
+                  className={`p-3.5 rounded-2xl border text-center min-w-[140px] ${
+                    selectedEmp.risk_level === "HIGH"
+                      ? "bg-rose-50 border-rose-200 text-rose-700"
+                      : selectedEmp.risk_level === "MEDIUM"
+                      ? "bg-amber-50 border-amber-200 text-amber-700"
+                      : "bg-emerald-50 border-emerald-200 text-emerald-700"
                   }`}
                 >
-                  {/* Top card row */}
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={emp.avatar}
-                        alt={emp.name}
-                        className="w-11 h-11 rounded-xl object-cover border border-[#1b2d5a]"
-                      />
-                      <div>
-                        <div className="font-bold text-sm text-white group-hover:text-cyan-300 transition-colors">
-                          {emp.name}
-                        </div>
-                        <div className="text-[11px] text-slate-400 font-mono truncate max-w-[160px]">
-                          {emp.role}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Risk Tag */}
-                    <span
-                      className={`text-[9px] font-mono px-2 py-0.5 rounded font-black tracking-wider border ${
-                        emp.attritionRisk === "HIGH"
-                          ? "bg-rose-950/80 text-rose-300 border-rose-800"
-                          : emp.attritionRisk === "MEDIUM"
-                          ? "bg-amber-950/80 text-amber-300 border-amber-800"
-                          : "bg-emerald-950/80 text-emerald-300 border-emerald-800"
-                      }`}
-                    >
-                      {emp.attritionRisk} RISK ({emp.riskScore})
-                    </span>
+                  <div className="text-[10px] font-bold uppercase tracking-wider">AI Risk Signal</div>
+                  <div className="text-2xl font-extrabold mt-0.5">
+                    {selectedEmp.risk_level === "HIGH" ? "🔴 HIGH" : selectedEmp.risk_level === "MEDIUM" ? "🟡 MED" : "🟢 LOW"}
                   </div>
-
-                  {/* Telemetry Metrics Grid */}
-                  <div className="grid grid-cols-3 gap-2 py-2 px-2.5 rounded-xl bg-[#040815] border border-[#111c39] mb-3 text-center">
-                    <div>
-                      <div className="text-[10px] text-slate-400 font-mono">Performance</div>
-                      <div className="text-xs font-bold text-white font-mono">{emp.performance}%</div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] text-slate-400 font-mono">Workload</div>
-                      <div className={`text-xs font-bold font-mono ${
-                        emp.workload > 85 ? "text-rose-400" : "text-cyan-300"
-                      }`}>
-                        {emp.workload}%
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] text-slate-400 font-mono">Comp Ratio</div>
-                      <div className="text-xs font-bold text-slate-200 font-mono">
-                        {emp.compensationRatio}x
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Quick AI Prescribed Recommendation */}
-                  <div className="text-[11px] text-slate-300 line-clamp-2 leading-relaxed">
-                    <strong className="text-cyan-400 font-mono text-[10px]">AI INSIGHT: </strong>
-                    {emp.aiRecommendation}
-                  </div>
-
-                  {/* Footer tags */}
-                  <div className="mt-3 pt-2 border-t border-[#132042] flex items-center justify-between text-[10px] text-slate-400 font-mono">
-                    <span>{emp.department}</span>
-                    <span className="text-cyan-400 group-hover:underline flex items-center gap-0.5">
-                      View Dossier →
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Right Drawer: Rich Employee Dossier */}
-        {isDrawerOpen && activeEmployee && (
-          <div className="lg:col-span-5 rounded-2xl bg-[#070e24] border border-cyan-500/40 p-5 shadow-2xl flex flex-col space-y-5 animate-in fade-in duration-200">
-            {/* Drawer Header */}
-            <div className="flex items-start justify-between border-b border-[#142345] pb-4">
-              <div className="flex items-center gap-3.5">
-                <img
-                  src={activeEmployee.avatar}
-                  alt={activeEmployee.name}
-                  className="w-14 h-14 rounded-2xl object-cover border-2 border-cyan-400/50 shadow-md shadow-cyan-950/40"
-                />
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-base font-extrabold text-white">{activeEmployee.name}</h3>
-                    <span className="text-[10px] font-mono text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded">
-                      {activeEmployee.id}
-                    </span>
-                  </div>
-                  <div className="text-xs text-cyan-300 font-medium">{activeEmployee.role}</div>
-                  <div className="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
-                    <MapPin className="w-3 h-3 text-cyan-400" />
-                    <span>{activeEmployee.location}</span>
+                  <div className="text-[11px] opacity-80 font-mono font-semibold">
+                    Score: {riskResult?.risk_score || selectedEmp.risk_score}/100
                   </div>
                 </div>
               </div>
 
-              <button
-                onClick={() => setIsDrawerOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Flight Risk Callout Banner */}
-            <div
-              className={`p-3.5 rounded-xl border flex items-center justify-between ${
-                activeEmployee.attritionRisk === "HIGH"
-                  ? "bg-rose-950/40 border-rose-800/60 text-rose-200"
-                  : activeEmployee.attritionRisk === "MEDIUM"
-                  ? "bg-amber-950/40 border-amber-800/60 text-amber-200"
-                  : "bg-emerald-950/40 border-emerald-800/60 text-emerald-200"
-              }`}
-            >
-              <div className="flex items-center gap-2.5">
-                <ShieldAlert className="w-5 h-5 shrink-0" />
-                <div>
-                  <div className="text-xs font-bold uppercase tracking-wider font-mono">
-                    Attrition Flight Risk: {activeEmployee.attritionRisk} ({activeEmployee.riskScore}/100)
-                  </div>
-                  <div className="text-[11px] opacity-80">
-                    Tenure: {activeEmployee.tenureMonths} Months • Attendance: {activeEmployee.attendanceRate}%
-                  </div>
+              {/* 4 Key Metrics Cards */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80 text-center">
+                  <div className="text-[11px] text-slate-500 font-semibold">Performance</div>
+                  <div className="text-xl font-bold text-slate-900 mt-1">{selectedEmp.performance}%</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80 text-center">
+                  <div className="text-[11px] text-slate-500 font-semibold">Attendance</div>
+                  <div className="text-xl font-bold text-amber-700 mt-1">{selectedEmp.attendance}%</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80 text-center">
+                  <div className="text-[11px] text-slate-500 font-semibold">Engagement</div>
+                  <div className="text-xl font-bold text-rose-600 mt-1">{selectedEmp.engagement}%</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80 text-center">
+                  <div className="text-[11px] text-slate-500 font-semibold">Skill Growth</div>
+                  <div className="text-xl font-bold text-teal-600 mt-1">{selectedEmp.skill_growth}%</div>
                 </div>
               </div>
-              <span className="font-mono text-xs font-black px-2 py-1 rounded bg-black/40">
-                {activeEmployee.confidence}% CONF.
-              </span>
-            </div>
 
-            {/* Telemetry Root-Cause Drivers */}
-            <div>
-              <div className="text-[10px] font-mono uppercase text-slate-400 font-bold mb-2 flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Primary Risk & Performance Drivers</span>
-              </div>
-              <div className="space-y-1.5">
-                {activeEmployee.drivers.map((driver, idx) => (
-                  <div
-                    key={idx}
-                    className="p-2 rounded-lg bg-[#050917] border border-[#132042] text-xs text-slate-200 flex items-start gap-2"
-                  >
-                    <span className="text-cyan-400 font-bold">•</span>
-                    <span>{driver}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Performance & Workload Trend Chart */}
-            <div className="p-3.5 rounded-xl bg-[#050917] border border-[#132042]">
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-[10px] font-mono uppercase text-slate-400 font-bold">
-                  5-Month Telemetry Trajectory
-                </div>
-                <div className="flex items-center gap-3 text-[10px] font-mono">
-                  <span className="flex items-center gap-1 text-cyan-400">
-                    <span className="w-2 h-2 rounded-full bg-cyan-400" /> Performance
+              {/* Transparent Risk Formula & Contributing Factors */}
+              <div className="p-4 rounded-2xl bg-[#f7faf9] border border-slate-200/80 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                    <Cpu className="w-4 h-4 text-teal-600" />
+                    <span>Explainable Risk Engine Breakdown</span>
                   </span>
-                  <span className="flex items-center gap-1 text-rose-400">
-                    <span className="w-2 h-2 rounded-full bg-rose-400" /> Workload
+                  <span className="text-[10px] font-mono text-slate-500">
+                    Risk = Perf + Engage + Attend + Skill Gap
                   </span>
                 </div>
-              </div>
 
-              <div className="h-32 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={activeEmployee.history}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#101c38" />
-                    <XAxis dataKey="month" stroke="#475569" fontSize={9} />
-                    <YAxis domain={[50, 100]} stroke="#475569" fontSize={9} />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: "#060b16", borderColor: "#172554", fontSize: "11px" }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="performance"
-                      stroke="#00f0ff"
-                      strokeWidth={2}
-                      dot={{ r: 3 }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="workload"
-                      stroke="#f43f5e"
-                      strokeWidth={2}
-                      dot={{ r: 3 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Key Skills Proficiency Badges */}
-            <div>
-              <div className="text-[10px] font-mono uppercase text-slate-400 font-bold mb-2 flex items-center justify-between">
-                <span>Verified Technical Skills</span>
-                <span className="text-cyan-400 font-mono">{activeEmployee.skillMatch}% Role Match</span>
-              </div>
-              <div className="space-y-2">
-                {activeEmployee.keySkills.map((skill, idx) => (
-                  <div key={idx} className="space-y-0.5">
-                    <div className="flex justify-between text-xs">
-                      <span className="text-slate-300 font-medium">{skill.name}</span>
-                      <span className="font-mono text-cyan-400 font-bold text-[11px]">{skill.level}%</span>
-                    </div>
-                    <div className="w-full h-1.5 bg-[#0b1736] rounded-full overflow-hidden">
+                <div className="space-y-2">
+                  {(riskResult?.contributing_factors || selectedEmp.risk_factors || []).map(
+                    (cf: any, i: number) => (
                       <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full"
-                        style={{ width: `${skill.level}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Recent High-Impact Projects */}
-            <div>
-              <div className="text-[10px] font-mono uppercase text-slate-400 font-bold mb-2">
-                Recent Enterprise Impact
-              </div>
-              <div className="space-y-2">
-                {activeEmployee.projects.map((proj, idx) => (
-                  <div
-                    key={idx}
-                    className="p-2.5 rounded-lg bg-[#050917] border border-[#132042] text-xs"
-                  >
-                    <div className="font-bold text-white flex items-center justify-between">
-                      <span>{proj.name}</span>
-                      <span className="text-[10px] font-mono text-cyan-400">{proj.role}</span>
-                    </div>
-                    <div className="text-[11px] text-emerald-400 mt-0.5">
-                      ✓ Impact: {proj.impact}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Autonomous Action Card */}
-            <div className="p-4 rounded-xl bg-gradient-to-b from-[#0b1b3d] to-[#071129] border border-cyan-500/40 space-y-3">
-              <div>
-                <span className="text-[10px] font-mono uppercase text-cyan-300 font-bold tracking-wider">
-                  PRESCRIBED AUTONOMOUS INTERVENTION
-                </span>
-                <p className="text-xs text-white font-medium mt-1 leading-snug">
-                  {activeEmployee.recommendedAction}
-                </p>
-                <div className="text-[11px] text-emerald-300 mt-1 flex items-center gap-1 font-mono">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>{activeEmployee.expectedImpact}</span>
+                        key={i}
+                        className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 text-xs shadow-2xs"
+                      >
+                        <div className="text-slate-800">
+                          <strong className="text-slate-900">{cf.factor}:</strong>{" "}
+                          <span className="text-slate-600">{cf.evidence || ""}</span>
+                        </div>
+                        <span className="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 font-mono font-bold text-[11px] shrink-0">
+                          {cf.points || cf.impact}
+                        </span>
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
 
-              <button
-                onClick={() => handleExecuteAction(activeEmployee)}
-                className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 via-sky-600 to-cyan-400 text-white font-bold text-xs shadow-lg shadow-cyan-500/25 hover:shadow-cyan-400/40 hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
-              >
-                <Sparkles className="w-4 h-4 text-cyan-200" />
-                <span>Execute Prescribed Intervention</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              {/* 5-Month Historical Telemetry Chart */}
+              {selectedEmp.history && (
+                <div className="p-4 rounded-2xl bg-[#f7faf9] border border-slate-200/80 space-y-2">
+                  <div className="text-xs font-bold text-slate-700">5-Month Telemetry Trajectory</div>
+                  <div className="h-44 w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={selectedEmp.history}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e2eeed" />
+                        <XAxis dataKey="month" stroke="#64748b" fontSize={11} />
+                        <YAxis domain={[40, 100]} stroke="#64748b" fontSize={11} />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: "#ffffff",
+                            borderColor: "#cbd5e1",
+                            borderRadius: "10px",
+                            fontSize: "11px",
+                            boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)"
+                          }}
+                        />
+                        <Legend wrapperStyle={{ fontSize: "11px" }} />
+                        <Line type="monotone" dataKey="performance" stroke="#0d9488" strokeWidth={2} name="Performance" />
+                        <Line type="monotone" dataKey="engagement" stroke="#e11d48" strokeWidth={2} name="Engagement" />
+                        <Line type="monotone" dataKey="attendance" stroke="#059669" strokeWidth={2} name="Attendance" />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              )}
+
+              {/* Recommended Actions */}
+              <div className="space-y-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-teal-700">
+                  Recommended Supportive Actions (Non-Punitive HR Design)
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {(riskResult?.recommendations || selectedEmp.recommendations || []).map(
+                    (rec: any, idx: number) => (
+                      <div
+                        key={idx}
+                        className="p-3.5 rounded-2xl bg-teal-50/70 border border-teal-200 flex flex-col justify-between"
+                      >
+                        <div>
+                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-teal-100 text-teal-800 border border-teal-200">
+                            {rec.urgency || "Action"}
+                          </span>
+                          <div className="text-xs font-bold text-slate-900 mt-2">→ {rec.action}</div>
+                          {rec.reason && (
+                            <p className="text-[11px] text-slate-600 mt-1">{rec.reason}</p>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+
+              {/* Action Footer */}
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-[11px] text-slate-500">
+                  Signals require human review. Avoid automated penalties.
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleSendToApproval}
+                    disabled={sentToApproval}
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-sm shadow-teal-500/20 transition-all disabled:opacity-50"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                    <span>
+                      {sentToApproval ? "Submitted to HR Approval ✓" : "Route to HR Approval Queue"}
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
