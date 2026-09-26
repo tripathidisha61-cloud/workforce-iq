@@ -1,156 +1,273 @@
-import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React from "react";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Users,
-  Mic,
-  UserCheck,
-  BookOpen,
-  FileText,
-  BarChart3,
   Sparkles,
+  Radar as RadarIcon,
+  Cpu,
+  TrendingUp,
+  BarChart3,
+  Sliders,
+  FileBarChart2,
   Settings,
   LogOut,
-  ChevronDown,
-  X,
-  Compass
+  GitPullRequest,
+  ShieldCheck,
+  Zap,
+  Globe,
+  Award
 } from "lucide-react";
 
 interface SidebarProps {
   currentUser?: { name: string; role: string; email: string };
   onLogout?: () => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
-  currentUser = { name: "Sarah Jenkins", role: "HR Admin", email: "sarah.jenkins@workforceiq.ai" },
-  onLogout
+  currentUser = { name: "Sarah Jenkins", role: "VP of People Operations", email: "sarah.j@enterprise.ai" },
+  onLogout,
+  isOpen = true,
+  onClose
 }) => {
   const navigate = useNavigate();
-  const [showPromo, setShowPromo] = useState(true);
+  const location = useLocation();
 
-  const navItems = [
-    { label: "Dashboard", path: "/", icon: LayoutDashboard },
-    { label: "Recruitment AI", path: "/recruitment", icon: Users, badge: "AI MATCH" },
-    { label: "Interviews", path: "/interview", icon: Mic, badge: "AGENT" },
-    { label: "Employees", path: "/employees", icon: UserCheck },
-    { label: "Onboarding", path: "/onboarding", icon: BookOpen },
-    { label: "Policy AI", path: "/policy", icon: FileText, badge: "RAG" },
-    { label: "Analytics", path: "/analytics", icon: BarChart3 },
-    { label: "Recommendations", path: "/recommendations", icon: Sparkles },
-    { label: "Settings", path: "/settings", icon: Settings },
+  // All 11 navigation items specified in user prompt:
+  // Overview, Workforce, AI Insights, Risk Radar, Skills Intelligence, Performance, Workforce Planning, Recommendations, Scenarios, Reports, Settings
+  const primaryNavItems = [
+    { label: "Overview", path: "/app", icon: LayoutDashboard, badge: "LIVE" },
+    { label: "Workforce", path: "/app/employees", icon: Users, count: "12.4K" },
+    { label: "AI Insights", path: "/app/decisions", icon: Sparkles, badge: "SIGNALS" },
+    { label: "Risk Radar", path: "/app#radar", icon: RadarIcon, badge: "RADAR" },
+    { label: "Skills Intelligence", path: "/app/skills", icon: Cpu, badge: "MATRIX" },
+    { label: "Performance", path: "/app/reports", icon: Award },
+    { label: "Workforce Planning", path: "/app/planning", icon: TrendingUp },
+    { label: "Recommendations", path: "/app/recommendations", icon: GitPullRequest, count: "5" },
+    { label: "Scenarios", path: "/app/scenarios", icon: Sliders, badge: "WHAT IF" },
+    { label: "Reports", path: "/app/reports", icon: FileBarChart2 },
+  ];
+
+  const secondaryNavItems = [
+    { label: "Settings", path: "/app/settings", icon: Settings },
   ];
 
   return (
-    <aside className="w-64 bg-[#0d2127] border-r border-[#15353d] flex flex-col h-screen sticky top-0 select-none z-30 text-slate-200 shadow-xl">
-      {/* Brand Header with Infinity Logo */}
-      <div className="p-4 border-b border-[#163a43] flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          {/* Logo Badge matching reference: Teal infinity container */}
-          <div className="w-10 h-10 rounded-xl bg-[#143e46] border border-[#216773] flex items-center justify-center shadow-inner text-teal-300">
-            <svg
-              className="w-5 h-5 text-teal-300"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {/* Infinity Symbol SVG */}
-              <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.261-8-12.356-8-5.096 0-5.096 8 0 8 5.095 0 7.261-8 12.356-8z" />
-            </svg>
-          </div>
-          <div>
-            <div className="font-black text-sm tracking-tight text-white uppercase">
-              WORKFORCE<span className="text-teal-400">IQ</span>
-            </div>
-            <div className="text-[9px] text-teal-400/90 font-bold tracking-wider uppercase">
-              - ORCHESTRATOR ONLINE
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation Links */}
-      <div className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
-        <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-teal-100/40">
-          CORE WORKFLOWS
-        </div>
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              end={item.path === "/"}
-              className={({ isActive }) =>
-                `flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 group ${
-                  isActive
-                    ? "bg-[#143941] text-white border border-[#249fa0]/70 shadow-sm"
-                    : "text-slate-300 hover:text-white hover:bg-[#122c34]"
-                }`
-              }
-            >
-              <div className="flex items-center gap-3">
-                <Icon className="w-4 h-4 transition-transform group-hover:scale-110 text-teal-300/80 group-hover:text-teal-200" />
-                <span>{item.label}</span>
-              </div>
-              {item.badge && (
-                <span className="text-[9px] uppercase font-bold px-1.5 py-0.5 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">
-                  {item.badge}
-                </span>
-              )}
-            </NavLink>
-          );
-        })}
-      </div>
-
-      {/* Turnaround — for the Loop Callout from reference photo */}
-      {showPromo && (
-        <div className="p-3 mx-3 mb-3 rounded-2xl bg-[#0e2c34]/80 border border-[#1c4b57] text-[11px] text-slate-300 relative shadow-sm">
-          <button
-            onClick={() => setShowPromo(false)}
-            className="absolute top-2.5 right-2.5 text-slate-400 hover:text-white"
-          >
-            <X className="w-3.5 h-3.5" />
-          </button>
-          <div className="flex items-center gap-1.5 font-bold text-white mb-0.5">
-            <Compass className="w-3.5 h-3.5 text-teal-400" />
-            <span>Turnaround — for the Loop</span>
-          </div>
-          <p className="text-[10px] text-teal-100/70 leading-relaxed pr-3">
-            Smarter hiring. Happier teams. Powered by AI.
-          </p>
-        </div>
+    <>
+      {/* Mobile backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+          onClick={onClose}
+        />
       )}
 
-      {/* User Footer Profile */}
-      <div className="p-3 border-t border-[#163a43] bg-[#091b20]">
-        <div className="flex items-center justify-between p-2 rounded-xl bg-[#0f2830] border border-[#1b434f]">
-          <div className="flex items-center gap-2.5 overflow-hidden">
-            <div className="w-8 h-8 rounded-lg bg-[#2dd4bf] flex items-center justify-center font-black text-xs text-[#091b20] shrink-0 shadow-sm">
-              SJ
+      <aside
+        className={`fixed top-0 bottom-0 left-0 z-50 w-72 bg-[#060b16] border-r border-[#152342] flex flex-col select-none transition-transform duration-300 lg:translate-x-0 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Brand Header */}
+        <div className="p-4 border-b border-[#152342] bg-[#030712]/60">
+          <div className="flex items-center justify-between">
+            <div
+              onClick={() => navigate("/app")}
+              className="flex items-center gap-3 cursor-pointer group"
+            >
+              <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 via-sky-500 to-cyan-400 p-[1.5px] shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-400/40 transition-all duration-300">
+                <div className="w-full h-full bg-[#060b16] rounded-[10px] flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-cyan-400 transition-transform group-hover:scale-110" />
+                </div>
+                <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-400 rounded-full border-2 border-[#060b16] animate-pulse" />
+              </div>
+
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-extrabold text-base tracking-tight text-white font-mono">
+                    WORKFORCE<span className="text-cyan-400 font-black">IQ</span>
+                  </span>
+                </div>
+                <div className="text-[10px] text-sky-400/80 font-mono tracking-wider flex items-center gap-1">
+                  <span>ORCHESTRATOR</span>
+                  <span className="text-slate-500">•</span>
+                  <span className="text-emerald-400 font-semibold">● AI Engine Live</span>
+                </div>
+              </div>
             </div>
-            <div className="truncate">
-              <div className="text-xs font-bold text-white truncate">{currentUser.name}</div>
-              <div className="text-[10px] text-teal-200/70 truncate">{currentUser.role}</div>
+
+            <NavLink
+              to="/"
+              title="View Public Portal"
+              className="p-1.5 text-slate-400 hover:text-cyan-400 rounded-lg hover:bg-[#0c1936] transition-colors"
+            >
+              <Globe className="w-4 h-4" />
+            </NavLink>
+          </div>
+        </div>
+
+        {/* Navigation scrollable */}
+        <div className="flex-1 py-4 px-3 space-y-6 overflow-y-auto">
+          <div>
+            <div className="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold flex items-center justify-between">
+              <span>INTELLIGENCE MODULES</span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">
+                AUTONOMOUS
+              </span>
+            </div>
+
+            <div className="space-y-1">
+              {primaryNavItems.map((item) => {
+                const Icon = item.icon;
+                const isActive =
+                  item.path === "/app"
+                    ? location.pathname === "/app"
+                    : location.pathname.startsWith(item.path.split("#")[0]);
+
+                return (
+                  <NavLink
+                    key={item.label}
+                    to={item.path}
+                    end={item.path === "/app"}
+                    className={({ isActive: linkActive }) =>
+                      `flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 group relative ${
+                        linkActive || isActive
+                          ? "bg-gradient-to-r from-blue-900/60 to-cyan-950/40 text-cyan-300 border border-cyan-500/40 shadow-lg shadow-cyan-950/50"
+                          : "text-slate-400 hover:text-slate-100 hover:bg-[#0c1836]/60 border border-transparent"
+                      }`
+                    }
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${
+                          isActive
+                            ? "bg-cyan-500/20 text-cyan-300"
+                            : "bg-[#0b1429] text-slate-400 group-hover:text-cyan-400 group-hover:bg-[#122045]"
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <span className="font-semibold tracking-wide">{item.label}</span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      {item.badge && (
+                        <span
+                          className={`text-[9px] font-mono px-1.5 py-0.5 rounded uppercase font-bold tracking-wider ${
+                            isActive
+                              ? "bg-cyan-400/20 text-cyan-200 border border-cyan-400/30"
+                              : "bg-blue-950/80 text-blue-300 border border-blue-800/40"
+                          }`}
+                        >
+                          {item.badge}
+                        </span>
+                      )}
+                      {item.count && (
+                        <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-full bg-slate-800 text-slate-300">
+                          {item.count}
+                        </span>
+                      )}
+                    </div>
+
+                    {isActive && (
+                      <span className="absolute left-0 top-2 bottom-2 w-1 bg-cyan-400 rounded-r-full shadow-[0_0_8px_#00f0ff]" />
+                    )}
+                  </NavLink>
+                );
+              })}
             </div>
           </div>
-          <div className="flex items-center gap-1 text-slate-400">
-            <ChevronDown className="w-4 h-4 cursor-pointer hover:text-white" />
+
+          {/* Configuration */}
+          <div>
+            <div className="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold">
+              PLATFORM CONTROLS
+            </div>
+            <div className="space-y-1">
+              {secondaryNavItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={({ isActive }) =>
+                      `flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 group ${
+                        isActive
+                          ? "bg-blue-900/40 text-cyan-300 border border-cyan-500/30"
+                          : "text-slate-400 hover:text-slate-200 hover:bg-[#0c1836]/60 border border-transparent"
+                      }`
+                    }
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-7 h-7 rounded-lg bg-[#0b1429] flex items-center justify-center text-slate-400 group-hover:text-cyan-400 group-hover:bg-[#122045]">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <span className="font-semibold tracking-wide">{item.label}</span>
+                    </div>
+                  </NavLink>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* AI Telemetry Engine Status Card */}
+          <div className="p-3.5 rounded-2xl bg-gradient-to-b from-[#0b1736] to-[#070e24] border border-blue-900/40 shadow-inner">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400"></span>
+                </span>
+                <span className="text-[11px] font-bold text-slate-200 font-mono">
+                  ● AI Engine Live
+                </span>
+              </div>
+              <span className="text-[9px] font-mono text-cyan-400 bg-cyan-950/80 px-1.5 py-0.5 rounded border border-cyan-800/40">
+                14ms latency
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400 leading-snug">
+              Monitoring <strong className="text-slate-200">12,482 nodes</strong> across Bengaluru, Gurugram & Remote.
+            </p>
+            <div className="mt-2.5 pt-2 border-t border-blue-950 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+              <span>Confidence Index</span>
+              <span className="font-bold text-cyan-400">91% Normal</span>
+            </div>
+          </div>
+        </div>
+
+        {/* User Footer Profile */}
+        <div className="p-3 border-t border-[#152342] bg-[#030712]/90">
+          <div className="flex items-center justify-between p-2 rounded-xl bg-[#091124] border border-[#172554]">
+            <div className="flex items-center gap-2.5 overflow-hidden">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-bold text-xs text-[#030712] shrink-0 shadow-md">
+                SJ
+              </div>
+              <div className="truncate">
+                <div className="text-xs font-bold text-white truncate flex items-center gap-1.5">
+                  <span>{currentUser.name}</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                </div>
+                <div className="text-[10px] text-slate-400 truncate font-mono">
+                  {currentUser.role}
+                </div>
+              </div>
+            </div>
+
             <button
               onClick={() => {
                 if (onLogout) onLogout();
                 else navigate("/login");
               }}
-              title="Log Out"
-              className="p-1 hover:text-rose-400 transition-colors ml-0.5"
+              title="Sign Out"
+              className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/30 rounded-lg transition-colors ml-1"
             >
-              <LogOut className="w-3.5 h-3.5" />
+              <LogOut className="w-4 h-4" />
             </button>
           </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 };
