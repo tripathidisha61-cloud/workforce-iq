@@ -21,32 +21,32 @@ export const CandidateCard: React.FC<{ candidate: CandidateProps; onSelect?: () 
 }) => {
   const getBadgeColor = (score: number) => {
     if (score >= 85) return "bg-emerald-50 text-emerald-700 border-emerald-200";
-    if (score >= 70) return "bg-blue-50 text-blue-700 border-blue-200";
+    if (score >= 70) return "bg-teal-50 text-teal-700 border-teal-200";
     return "bg-amber-50 text-amber-800 border-amber-200";
   };
 
   return (
-    <div className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs transition-all duration-200 hover:border-blue-300 hover:shadow-md flex flex-col justify-between group">
+    <div className="p-5 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs transition-all duration-200 hover:border-teal-300 hover:shadow-md flex flex-col justify-between group">
       <div>
         {/* Header */}
         <div className="flex items-start justify-between gap-3 mb-3">
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-base font-bold text-slate-900 group-hover:text-teal-600 transition-colors">
                 {candidate.name}
               </h3>
               {candidate.name.toLowerCase().includes("priya") && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-bold border border-blue-200">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 font-bold border border-teal-200">
                   Demo Hero
                 </span>
               )}
             </div>
             <div className="flex items-center gap-2 text-xs text-slate-500 mt-1">
               <span className="flex items-center gap-1 font-medium">
-                <Briefcase className="w-3.5 h-3.5 text-blue-600" />
+                <Briefcase className="w-3.5 h-3.5 text-teal-600" />
                 {candidate.job_title}
               </span>
-              <span>?</span>
+              <span>•</span>
               <span>{candidate.experience}y exp</span>
             </div>
           </div>
@@ -64,7 +64,7 @@ export const CandidateCard: React.FC<{ candidate: CandidateProps; onSelect?: () 
         {/* Education */}
         {candidate.education && (
           <div className="flex items-center gap-1.5 text-[11px] text-slate-600 mb-3 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">
-            <GraduationCap className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+            <GraduationCap className="w-3.5 h-3.5 text-teal-600 shrink-0" />
             <span className="truncate">{candidate.education}</span>
           </div>
         )}
@@ -82,7 +82,7 @@ export const CandidateCard: React.FC<{ candidate: CandidateProps; onSelect?: () 
                   s.level === "Strong"
                     ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                     : s.level === "Good"
-                    ? "bg-blue-50 text-blue-700 border-blue-200"
+                    ? "bg-teal-50 text-teal-700 border-teal-200"
                     : s.level === "Basic"
                     ? "bg-amber-50 text-amber-800 border-amber-200"
                     : "bg-rose-50 text-rose-700 border-rose-200"
@@ -116,7 +116,7 @@ export const CandidateCard: React.FC<{ candidate: CandidateProps; onSelect?: () 
       <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
         <Link
           to={`/recruitment/candidate/${candidate.id}`}
-          className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs shadow-blue-500/20 transition-colors"
+          className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-xs shadow-teal-500/20 transition-colors"
         >
           <span>View Analysis</span>
           <ArrowRight className="w-3.5 h-3.5" />

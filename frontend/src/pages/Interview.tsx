@@ -78,7 +78,7 @@ export const Interview: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-200">
+            <div className="p-2 rounded-2xl bg-teal-50 text-teal-600 border border-teal-200">
               <Mic className="w-5 h-5" />
             </div>
             <span>Adaptive Interview Agent</span>
@@ -92,7 +92,7 @@ export const Interview: React.FC = () => {
           <select
             value={selectedCandidateId}
             onChange={(e) => setSelectedCandidateId(Number(e.target.value))}
-            className="bg-white border border-slate-200 text-xs text-slate-800 font-semibold rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xs"
+            className="bg-white border border-slate-200 text-xs text-slate-800 font-semibold rounded-2xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-teal-500 shadow-xs"
           >
             {candidates.map((c) => (
               <option key={c.id} value={c.id}>
@@ -104,7 +104,7 @@ export const Interview: React.FC = () => {
           <button
             onClick={handleGenerate}
             disabled={generating}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm shadow-blue-500/20 transition-all"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-sm shadow-teal-500/20 transition-all"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${generating ? "animate-spin" : ""}`} />
             <span>Regenerate Questions</span>
@@ -116,18 +116,18 @@ export const Interview: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Generated Questions */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+          <div className="p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-4">
             <div className="flex flex-wrap items-center justify-between border-b border-slate-100 pb-3 gap-2">
               <div>
                 <h3 className="text-base font-bold text-slate-900">
                   Personalized Interview Guide: {currentCandidate.name}
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Target Role: <strong className="text-blue-700">{currentCandidate.job_title}</strong> • Adaptive Gap Probe:{" "}
+                  Target Role: <strong className="text-teal-700">{currentCandidate.job_title}</strong> • Adaptive Gap Probe:{" "}
                   <strong className="text-amber-700">{questionsData?.adaptive_gap_focus || "AWS Cloud Deployment"}</strong>
                 </p>
               </div>
-              <span className="text-[11px] px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-semibold">
+              <span className="text-[11px] px-2.5 py-1 rounded-full bg-teal-100 text-teal-800 border border-teal-200 font-semibold">
                 {questionsData?.questions?.length || 4} Questions
               </span>
             </div>
@@ -136,10 +136,10 @@ export const Interview: React.FC = () => {
               {(questionsData?.questions || []).map((q: any, idx: number) => (
                 <div
                   key={q.id || idx}
-                  className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition-all space-y-2.5"
+                  className="p-4 rounded-2xl bg-[#f7faf9] border border-slate-200/80 hover:border-teal-300 transition-all space-y-2.5"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-blue-700">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-teal-700">
                       Question {idx + 1} • {q.category}
                     </span>
                     <span
@@ -163,7 +163,7 @@ export const Interview: React.FC = () => {
                       {(q.expected_competencies || []).map((comp: string, i: number) => (
                         <span
                           key={i}
-                          className="text-[11px] px-2 py-0.5 rounded-md bg-white text-slate-700 border border-slate-200 shadow-xs font-medium"
+                          className="text-[11px] px-2 py-0.5 rounded-md bg-white text-slate-700 border border-slate-200 shadow-2xs font-medium"
                         >
                           ✓ {comp}
                         </span>
@@ -178,23 +178,23 @@ export const Interview: React.FC = () => {
 
         {/* Right: Interview Evaluation & AI Feedback */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-5">
+          <div className="p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-5">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-blue-600" />
+                <Award className="w-5 h-5 text-teal-600" />
                 <h3 className="text-base font-bold text-slate-900">Interview Evaluation Simulator</h3>
               </div>
-              <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
                 Real-Time Scoring
               </span>
             </div>
 
             {/* Interactive Score Sliders */}
-            <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div className="space-y-3 bg-[#f7faf9] p-4 rounded-2xl border border-slate-200/80">
               <div>
                 <div className="flex justify-between text-xs mb-1">
                   <span className="text-slate-600 font-semibold">Technical Knowledge (40%)</span>
-                  <span className="text-blue-700 font-bold">{customScores.technical}%</span>
+                  <span className="text-teal-700 font-bold">{customScores.technical}%</span>
                 </div>
                 <input
                   type="range"
@@ -204,7 +204,7 @@ export const Interview: React.FC = () => {
                   onChange={(e) =>
                     setCustomScores({ ...customScores, technical: Number(e.target.value) })
                   }
-                  className="w-full accent-blue-600 cursor-pointer"
+                  className="w-full accent-teal-600 cursor-pointer"
                 />
               </div>
 
@@ -246,7 +246,7 @@ export const Interview: React.FC = () => {
             <button
               onClick={handleEvaluate}
               disabled={evaluating}
-              className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm shadow-blue-500/20 flex items-center justify-center gap-2 transition-all"
+              className="w-full py-3 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-sm shadow-teal-500/20 flex items-center justify-center gap-2 transition-all"
             >
               <Sparkles className="w-4 h-4" />
               <span>{evaluating ? "Synthesizing Evaluation..." : "Compute Interview Evaluation & AI Feedback"}</span>
@@ -254,15 +254,15 @@ export const Interview: React.FC = () => {
 
             {evaluationData && (
               <div className="space-y-4 pt-3 border-t border-slate-100 animate-fadeIn">
-                <div className="flex items-center justify-between p-4 rounded-xl bg-blue-50/70 border border-blue-200">
+                <div className="flex items-center justify-between p-4 rounded-2xl bg-teal-50/70 border border-teal-200">
                   <div>
                     <div className="text-[10px] font-bold uppercase text-slate-500">Overall Composite Rating</div>
-                    <div className="text-sm font-bold text-blue-700 mt-0.5">{evaluationData.status}</div>
+                    <div className="text-sm font-bold text-teal-800 mt-0.5">{evaluationData.status}</div>
                   </div>
-                  <div className="text-3xl font-extrabold text-blue-900">{evaluationData.overall_score}%</div>
+                  <div className="text-3xl font-extrabold text-teal-900">{evaluationData.overall_score}%</div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-1.5">
+                <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-1.5">
                   <div className="text-xs font-bold text-emerald-800 flex items-center gap-1">
                     <CheckCircle2 className="w-3.5 h-3.5" /> Key Interview Strengths
                   </div>
@@ -273,7 +273,7 @@ export const Interview: React.FC = () => {
                   </ul>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200 space-y-1.5">
+                <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-1.5">
                   <div className="text-xs font-bold text-amber-800 flex items-center gap-1">
                     <AlertTriangle className="w-3.5 h-3.5" /> Areas for Improvement
                   </div>
@@ -284,14 +284,14 @@ export const Interview: React.FC = () => {
                   </ul>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-950">
-                  <strong className="text-blue-900 block mb-1">AI Final Recommendation:</strong>
+                <div className="p-3.5 rounded-2xl bg-teal-50 border border-teal-200 text-xs text-teal-950">
+                  <strong className="text-teal-900 block mb-1">AI Final Recommendation:</strong>
                   {evaluationData.feedback?.recommendation}
                 </div>
 
                 <button
                   onClick={() => navigate("/recommendations")}
-                  className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm shadow-blue-500/20"
+                  className="w-full py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-sm shadow-teal-500/20"
                 >
                   Proceed to HR Approval Screen
                 </button>

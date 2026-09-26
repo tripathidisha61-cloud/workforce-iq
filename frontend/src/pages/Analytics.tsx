@@ -37,7 +37,7 @@ export const Analytics: React.FC = () => {
     <div className="p-6 lg:p-8 space-y-8 max-w-7xl mx-auto">
       <div>
         <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-200">
+          <div className="p-2 rounded-2xl bg-teal-50 text-teal-600 border border-teal-200">
             <BarChart3 className="w-5 h-5" />
           </div>
           <span>Workforce & Talent Analytics</span>
@@ -49,12 +49,12 @@ export const Analytics: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Department Performance & Headcount */}
-        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div className="p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-4">
           <h3 className="text-base font-bold text-slate-900">Department Health & Headcount</h3>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={deptRisks}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2eeed" />
                 <XAxis dataKey="department" stroke="#64748b" fontSize={11} />
                 <YAxis stroke="#64748b" fontSize={11} />
                 <Tooltip
@@ -66,20 +66,20 @@ export const Analytics: React.FC = () => {
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: "11px" }} />
-                <Bar name="Avg Health Score (%)" dataKey="avg_score" fill="#2563eb" radius={[6, 6, 0, 0]} />
-                <Bar name="Headcount" dataKey="headcount" fill="#059669" radius={[6, 6, 0, 0]} />
+                <Bar name="Avg Health Score (%)" dataKey="avg_score" fill="#0d9488" radius={[6, 6, 0, 0]} />
+                <Bar name="Headcount" dataKey="headcount" fill="#0284c7" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Candidate Match Distribution */}
-        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div className="p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-4">
           <h3 className="text-base font-bold text-slate-900">Candidate Match Score Distribution (n=124)</h3>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={matchDistribution} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2eeed" />
                 <XAxis type="number" stroke="#64748b" fontSize={11} />
                 <YAxis dataKey="range" type="category" stroke="#64748b" fontSize={11} width={140} />
                 <Tooltip
@@ -90,7 +90,7 @@ export const Analytics: React.FC = () => {
                     boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)"
                   }}
                 />
-                <Bar name="Candidates" dataKey="candidates" fill="#3b82f6" radius={[0, 6, 6, 0]} />
+                <Bar name="Candidates" dataKey="candidates" fill="#14b8a6" radius={[0, 6, 6, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

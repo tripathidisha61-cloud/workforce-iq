@@ -25,7 +25,7 @@ export const Onboarding: React.FC = () => {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-200">
+          <div className="p-2 rounded-2xl bg-teal-50 text-teal-600 border border-teal-200">
             <BookOpen className="w-5 h-5" />
           </div>
           <span>Adaptive Onboarding & Upskilling Cohorts</span>
@@ -40,13 +40,13 @@ export const Onboarding: React.FC = () => {
         {plans.map((plan) => (
           <div
             key={plan.id}
-            className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-5 flex flex-col justify-between"
+            className="p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-5 flex flex-col justify-between"
           >
             <div className="space-y-4">
               {/* Top Info */}
               <div className="flex items-start justify-between border-b border-slate-100 pb-4">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-teal-600">
                     Adaptive Learning Curriculum
                   </span>
                   <h3 className="text-xl font-bold text-slate-900 mt-0.5">{plan.employee_name}</h3>
@@ -54,7 +54,7 @@ export const Onboarding: React.FC = () => {
                 </div>
 
                 <div className="text-right">
-                  <div className="text-2xl font-black text-blue-600">{plan.overall_progress}%</div>
+                  <div className="text-2xl font-black text-teal-700">{plan.overall_progress}%</div>
                   <div className="text-[10px] font-bold uppercase text-slate-400">Progress</div>
                 </div>
               </div>
@@ -63,7 +63,7 @@ export const Onboarding: React.FC = () => {
               <div>
                 <div className="w-full h-3 rounded-full bg-slate-100 overflow-hidden p-0.5 border border-slate-200">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 transition-all duration-300"
+                    className="h-full rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 transition-all duration-300"
                     style={{ width: `${plan.overall_progress}%` }}
                   />
                 </div>
@@ -78,7 +78,7 @@ export const Onboarding: React.FC = () => {
                   {(plan.detected_skill_gaps || []).map((gap: string, idx: number) => (
                     <span
                       key={idx}
-                      className="text-xs px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 border border-amber-200 font-semibold shadow-xs"
+                      className="text-xs px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 border border-amber-200 font-semibold shadow-2xs"
                     >
                       ⚠ {gap}
                     </span>
@@ -88,7 +88,7 @@ export const Onboarding: React.FC = () => {
 
               {/* AI Learning Path Weeks */}
               <div className="space-y-2.5 pt-2">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-blue-700">
+                <div className="text-[11px] font-bold uppercase tracking-wider text-teal-700">
                   4-Week Personalized Sprint Track (Click to Toggle Status)
                 </div>
                 {(plan.learning_path || []).map((item: any) => {
@@ -99,12 +99,12 @@ export const Onboarding: React.FC = () => {
                     <div
                       key={item.week}
                       onClick={() => handleToggleWeek(plan.id, item.week, item.status)}
-                      className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between shadow-xs ${
+                      className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between shadow-2xs ${
                         isDone
                           ? "bg-emerald-50/70 border-emerald-200 text-emerald-900"
                           : isCurrent
-                          ? "bg-blue-50/70 border-blue-200 text-blue-900"
-                          : "bg-slate-50 border-slate-200 text-slate-500"
+                          ? "bg-teal-50/70 border-teal-200 text-teal-900"
+                          : "bg-[#f7faf9] border-slate-200 text-slate-500"
                       }`}
                     >
                       <div className="flex items-center gap-3">
@@ -113,7 +113,7 @@ export const Onboarding: React.FC = () => {
                             isDone
                               ? "bg-emerald-600 text-white"
                               : isCurrent
-                              ? "bg-blue-600 text-white"
+                              ? "bg-teal-600 text-white"
                               : "bg-slate-200 text-slate-600"
                           }`}
                         >
@@ -138,7 +138,7 @@ export const Onboarding: React.FC = () => {
                           isDone
                             ? "bg-emerald-100 text-emerald-800"
                             : isCurrent
-                            ? "bg-blue-100 text-blue-800"
+                            ? "bg-teal-100 text-teal-800"
                             : "bg-slate-200 text-slate-600"
                         }`}
                       >

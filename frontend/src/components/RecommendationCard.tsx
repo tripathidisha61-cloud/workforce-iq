@@ -66,28 +66,28 @@ export const RecommendationCard: React.FC<CardActionProps> = ({
 
   return (
     <div
-      className={`p-6 rounded-2xl bg-white border transition-all duration-200 shadow-xs hover:shadow-md ${
+      className={`p-6 rounded-3xl bg-white/95 backdrop-blur-sm border transition-all duration-200 shadow-xs hover:shadow-md ${
         isApproved
           ? "border-emerald-300 bg-emerald-50/20"
           : isRejected
           ? "border-rose-300 bg-rose-50/20"
-          : "border-slate-200 hover:border-blue-200"
+          : "border-slate-200/80 hover:border-teal-300"
       }`}
     >
       {/* Top Meta Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4 border-b border-slate-100">
         <div className="flex items-center gap-2.5">
           <div
-            className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm ${
+            className={`w-9 h-9 rounded-2xl flex items-center justify-center font-bold text-sm ${
               rec.target_type === "candidate"
-                ? "bg-blue-50 text-blue-700 border border-blue-200"
-                : "bg-indigo-50 text-indigo-700 border border-indigo-200"
+                ? "bg-teal-50 text-teal-700 border border-teal-200"
+                : "bg-blue-50 text-blue-700 border border-blue-200"
             }`}
           >
             {rec.target_type === "candidate" ? (
-              <Briefcase className="w-4 h-4 text-blue-600" />
+              <Briefcase className="w-4 h-4 text-teal-600" />
             ) : (
-              <User className="w-4 h-4 text-indigo-600" />
+              <User className="w-4 h-4 text-blue-600" />
             )}
           </div>
           <div>
@@ -95,7 +95,7 @@ export const RecommendationCard: React.FC<CardActionProps> = ({
               <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                 {rec.target_type === "candidate" ? "Candidate Intelligence" : "Workforce Retention Signal"}
               </span>
-              <span className="text-[10px] text-slate-300">?</span>
+              <span className="text-[10px] text-slate-300">•</span>
               <span className="text-[11px] text-slate-500 font-medium">
                 {new Date(rec.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
               </span>
@@ -130,17 +130,17 @@ export const RecommendationCard: React.FC<CardActionProps> = ({
 
       {/* Main Insights Body */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+        <div className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80">
           <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+            <Sparkles className="w-3.5 h-3.5 text-teal-600" />
             <span>Finding & Evidence</span>
           </div>
           <p className="text-xs text-slate-800 leading-relaxed font-medium">{rec.finding}</p>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+        <div className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80">
           <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
+            <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
             <span>AI Reasoning</span>
           </div>
           <p className="text-xs text-slate-700 leading-relaxed font-medium">{rec.reason}</p>
@@ -148,16 +148,16 @@ export const RecommendationCard: React.FC<CardActionProps> = ({
       </div>
 
       {/* Recommended Action Highlight */}
-      <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200 mb-5">
-        <div className="text-xs font-bold text-blue-900 uppercase tracking-wider mb-1">
+      <div className="p-4 rounded-2xl bg-teal-50/70 border border-teal-200 mb-5">
+        <div className="text-xs font-bold text-teal-900 uppercase tracking-wider mb-1">
           Recommended Next Step: {rec.recommendation_type}
         </div>
-        <p className="text-sm font-bold text-blue-950">{rec.action}</p>
+        <p className="text-sm font-bold text-teal-950">{rec.action}</p>
       </div>
 
       {/* Audit Review Details if available */}
       {rec.reviewed_by && (
-        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-600 mb-4 flex items-center justify-between">
+        <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 mb-4 flex items-center justify-between">
           <span>Reviewed by: <strong className="text-slate-900">{rec.reviewed_by}</strong></span>
           <span className="italic text-slate-500 text-[11px]">{rec.review_notes}</span>
         </div>
@@ -166,7 +166,7 @@ export const RecommendationCard: React.FC<CardActionProps> = ({
       {/* Decision Buttons for Human-in-the-Loop HR Approval */}
       <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
         <div className="text-[11px] text-slate-500 flex items-center gap-1 font-medium">
-          <Clock className="w-3.5 h-3.5 text-blue-600" />
+          <Clock className="w-3.5 h-3.5 text-teal-600" />
           <span>Human verification required prior to platform execution</span>
         </div>
 
@@ -218,8 +218,8 @@ export const RecommendationCard: React.FC<CardActionProps> = ({
                 : "Submit HRBP Review Notes"}
             </h4>
             <p className="text-xs text-slate-600 mb-4 font-medium">
-              Target: <strong className="text-slate-900">{rec.target_name}</strong> ? Action:{" "}
-              <strong className="text-blue-700">{rec.action}</strong>
+              Target: <strong className="text-slate-900">{rec.target_name}</strong> • Action:{" "}
+              <strong className="text-teal-700">{rec.action}</strong>
             </p>
 
             <div className="mb-4">
@@ -230,7 +230,7 @@ export const RecommendationCard: React.FC<CardActionProps> = ({
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
                 rows={3}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                className="w-full bg-[#f8faf9] border border-slate-200 rounded-2xl p-3 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
                 placeholder="Add contextual reasoning for audit compliance..."
               />
             </div>
@@ -250,7 +250,7 @@ export const RecommendationCard: React.FC<CardActionProps> = ({
                     ? "bg-emerald-600 hover:bg-emerald-700"
                     : modalMode === "reject"
                     ? "bg-rose-600 hover:bg-rose-700"
-                    : "bg-blue-600 hover:bg-blue-700"
+                    : "bg-teal-600 hover:bg-teal-700"
                 }`}
               >
                 {loading ? "Recording..." : "Confirm & Sign Off"}

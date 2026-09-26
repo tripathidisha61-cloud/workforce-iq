@@ -96,7 +96,7 @@ export const Employees: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-200">
+            <div className="p-2 rounded-2xl bg-teal-50 text-teal-600 border border-teal-200">
               <UserCheck className="w-5 h-5" />
             </div>
             <span>Employee Intelligence & Risk Detection</span>
@@ -114,14 +114,14 @@ export const Employees: React.FC = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search employees..."
-              className="bg-white border border-slate-200 text-xs text-slate-900 font-medium rounded-xl pl-9 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xs w-56"
+              className="bg-white border border-slate-200 text-xs text-slate-900 font-medium rounded-2xl pl-9 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-teal-500 shadow-xs w-56"
             />
           </div>
 
           <select
             value={departmentFilter}
             onChange={(e) => setDepartmentFilter(e.target.value)}
-            className="bg-white border border-slate-200 text-xs text-slate-800 font-semibold rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xs"
+            className="bg-white border border-slate-200 text-xs text-slate-800 font-semibold rounded-2xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-teal-500 shadow-xs"
           >
             <option value="All">All Departments</option>
             <option value="Engineering">Engineering</option>
@@ -147,15 +147,15 @@ export const Employees: React.FC = () => {
               <div
                 key={emp.id}
                 onClick={() => setSelectedEmp(emp)}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                className={`p-4 rounded-3xl border transition-all cursor-pointer ${
                   isSelected
-                    ? "bg-blue-50/70 border-blue-500 shadow-sm"
-                    : "bg-white border-slate-200 hover:border-slate-300 shadow-xs"
+                    ? "bg-teal-50/70 border-teal-500 shadow-sm"
+                    : "bg-white/95 border-slate-200 hover:border-slate-300 shadow-2xs"
                 }`}
               >
                 <div className="flex items-center justify-between mb-2.5">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-sm">
+                    <div className="w-10 h-10 rounded-2xl bg-teal-100 text-teal-800 font-bold flex items-center justify-center text-sm">
                       {emp.name.charAt(0)}
                     </div>
                     <div>
@@ -215,11 +215,11 @@ export const Employees: React.FC = () => {
         {/* Right Deep-Dive Intelligence View */}
         <div className="lg:col-span-7">
           {selectedEmp && (
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+            <div className="p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-6">
               {/* Top Profile Header */}
               <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-teal-600">
                     Employee Intelligence Dossier
                   </span>
                   <h3 className="text-2xl font-bold text-slate-900 mt-0.5">{selectedEmp.name}</h3>
@@ -229,7 +229,7 @@ export const Employees: React.FC = () => {
                 </div>
 
                 <div
-                  className={`p-3.5 rounded-xl border text-center min-w-[140px] ${
+                  className={`p-3.5 rounded-2xl border text-center min-w-[140px] ${
                     selectedEmp.risk_level === "HIGH"
                       ? "bg-rose-50 border-rose-200 text-rose-700"
                       : selectedEmp.risk_level === "MEDIUM"
@@ -249,29 +249,29 @@ export const Employees: React.FC = () => {
 
               {/* 4 Key Metrics Cards */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                <div className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80 text-center">
                   <div className="text-[11px] text-slate-500 font-semibold">Performance</div>
                   <div className="text-xl font-bold text-slate-900 mt-1">{selectedEmp.performance}%</div>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                <div className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80 text-center">
                   <div className="text-[11px] text-slate-500 font-semibold">Attendance</div>
                   <div className="text-xl font-bold text-amber-700 mt-1">{selectedEmp.attendance}%</div>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                <div className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80 text-center">
                   <div className="text-[11px] text-slate-500 font-semibold">Engagement</div>
                   <div className="text-xl font-bold text-rose-600 mt-1">{selectedEmp.engagement}%</div>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                <div className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80 text-center">
                   <div className="text-[11px] text-slate-500 font-semibold">Skill Growth</div>
-                  <div className="text-xl font-bold text-blue-600 mt-1">{selectedEmp.skill_growth}%</div>
+                  <div className="text-xl font-bold text-teal-600 mt-1">{selectedEmp.skill_growth}%</div>
                 </div>
               </div>
 
               {/* Transparent Risk Formula & Contributing Factors */}
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+              <div className="p-4 rounded-2xl bg-[#f7faf9] border border-slate-200/80 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                    <Cpu className="w-4 h-4 text-blue-600" />
+                    <Cpu className="w-4 h-4 text-teal-600" />
                     <span>Explainable Risk Engine Breakdown</span>
                   </span>
                   <span className="text-[10px] font-mono text-slate-500">
@@ -284,7 +284,7 @@ export const Employees: React.FC = () => {
                     (cf: any, i: number) => (
                       <div
                         key={i}
-                        className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 text-xs shadow-xs"
+                        className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 text-xs shadow-2xs"
                       >
                         <div className="text-slate-800">
                           <strong className="text-slate-900">{cf.factor}:</strong>{" "}
@@ -301,12 +301,12 @@ export const Employees: React.FC = () => {
 
               {/* 5-Month Historical Telemetry Chart */}
               {selectedEmp.history && (
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                <div className="p-4 rounded-2xl bg-[#f7faf9] border border-slate-200/80 space-y-2">
                   <div className="text-xs font-bold text-slate-700">5-Month Telemetry Trajectory</div>
                   <div className="h-44 w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={selectedEmp.history}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e2eeed" />
                         <XAxis dataKey="month" stroke="#64748b" fontSize={11} />
                         <YAxis domain={[40, 100]} stroke="#64748b" fontSize={11} />
                         <Tooltip
@@ -319,7 +319,7 @@ export const Employees: React.FC = () => {
                           }}
                         />
                         <Legend wrapperStyle={{ fontSize: "11px" }} />
-                        <Line type="monotone" dataKey="performance" stroke="#2563eb" strokeWidth={2} name="Performance" />
+                        <Line type="monotone" dataKey="performance" stroke="#0d9488" strokeWidth={2} name="Performance" />
                         <Line type="monotone" dataKey="engagement" stroke="#e11d48" strokeWidth={2} name="Engagement" />
                         <Line type="monotone" dataKey="attendance" stroke="#059669" strokeWidth={2} name="Attendance" />
                       </LineChart>
@@ -330,7 +330,7 @@ export const Employees: React.FC = () => {
 
               {/* Recommended Actions */}
               <div className="space-y-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-blue-700">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-teal-700">
                   Recommended Supportive Actions (Non-Punitive HR Design)
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -338,10 +338,10 @@ export const Employees: React.FC = () => {
                     (rec: any, idx: number) => (
                       <div
                         key={idx}
-                        className="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200 flex flex-col justify-between"
+                        className="p-3.5 rounded-2xl bg-teal-50/70 border border-teal-200 flex flex-col justify-between"
                       >
                         <div>
-                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800 border border-blue-200">
+                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-teal-100 text-teal-800 border border-teal-200">
                             {rec.urgency || "Action"}
                           </span>
                           <div className="text-xs font-bold text-slate-900 mt-2">→ {rec.action}</div>
@@ -364,7 +364,7 @@ export const Employees: React.FC = () => {
                   <button
                     onClick={handleSendToApproval}
                     disabled={sentToApproval}
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm shadow-blue-500/20 transition-all disabled:opacity-50"
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-sm shadow-teal-500/20 transition-all disabled:opacity-50"
                   >
                     <Send className="w-3.5 h-3.5" />
                     <span>

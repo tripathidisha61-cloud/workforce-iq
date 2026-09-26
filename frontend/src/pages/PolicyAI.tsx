@@ -52,7 +52,7 @@ export const PolicyAI: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-200">
+            <div className="p-2 rounded-2xl bg-teal-50 text-teal-600 border border-teal-200">
               <FileText className="w-5 h-5" />
             </div>
             <span>WorkforceIQ Policy AI (RAG Engine)</span>
@@ -62,9 +62,9 @@ export const PolicyAI: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 shadow-xs">
+        <div className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white/95 border border-slate-200 text-xs text-slate-700 shadow-xs">
           <Database className="w-4 h-4 text-emerald-600" />
-          <span>Vector Store: <strong className="text-blue-700 font-bold">5 HR Corpus PDFs Indexed</strong></span>
+          <span>Vector Store: <strong className="text-teal-700 font-bold">5 HR Corpus PDFs Indexed</strong></span>
         </div>
       </div>
 
@@ -73,7 +73,7 @@ export const PolicyAI: React.FC = () => {
         {/* Left 8 Columns: Query Input & RAG Output */}
         <div className="lg:col-span-8 space-y-6">
           {/* Search Input Box */}
-          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+          <div className="p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-4">
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
               Ask HR Policy Assistant Anything...
             </label>
@@ -87,14 +87,14 @@ export const PolicyAI: React.FC = () => {
                   onChange={(e) => setQuestion(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleAsk()}
                   placeholder="e.g., What is the maternity leave policy?"
-                  className="w-full bg-slate-50 border border-slate-200 text-sm text-slate-900 rounded-xl pl-11 pr-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
+                  className="w-full bg-[#f8faf9] border border-slate-200 text-sm text-slate-900 rounded-2xl pl-11 pr-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white"
                 />
               </div>
 
               <button
                 onClick={() => handleAsk()}
                 disabled={loading}
-                className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm shadow-blue-500/20 flex items-center gap-2 shrink-0 transition-all"
+                className="px-6 py-3.5 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold shadow-sm shadow-teal-500/20 flex items-center gap-2 shrink-0 transition-all"
               >
                 <Sparkles className="w-4 h-4" />
                 <span>{loading ? "Retrieving..." : "Ask AI"}</span>
@@ -104,7 +104,7 @@ export const PolicyAI: React.FC = () => {
             {/* Quick Suggested Prompts */}
             <div className="pt-1">
               <div className="text-[11px] font-semibold text-slate-500 mb-2 flex items-center gap-1">
-                <HelpCircle className="w-3.5 h-3.5 text-blue-600" />
+                <HelpCircle className="w-3.5 h-3.5 text-teal-600" />
                 <span>Try a verified policy question:</span>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -115,7 +115,7 @@ export const PolicyAI: React.FC = () => {
                       setQuestion(sq);
                       handleAsk(sq);
                     }}
-                    className="text-xs px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-200 transition-colors shadow-xs"
+                    className="text-xs px-3 py-1.5 rounded-xl bg-[#f7faf9] hover:bg-teal-50 text-slate-700 hover:text-teal-800 border border-slate-200 hover:border-teal-200 transition-colors shadow-2xs"
                   >
                     {sq}
                   </button>
@@ -126,10 +126,10 @@ export const PolicyAI: React.FC = () => {
 
           {/* Grounded AI Answer & Source Citations */}
           {ragResult && (
-            <div className="p-6 rounded-2xl bg-white border border-blue-200 shadow-sm space-y-6">
+            <div className="p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-teal-200 shadow-xs space-y-6">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-xl bg-blue-50 text-blue-700 border border-blue-200">
+                  <div className="p-2 rounded-xl bg-teal-50 text-teal-700 border border-teal-200">
                     <Sparkles className="w-4 h-4" />
                   </div>
                   <div>
@@ -146,16 +146,16 @@ export const PolicyAI: React.FC = () => {
               </div>
 
               {/* Answer Text */}
-              <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 leading-relaxed font-medium">
+              <div className="p-5 rounded-2xl bg-[#f7faf9] border border-slate-200/80 text-sm text-slate-800 leading-relaxed font-medium">
                 {ragResult.answer}
               </div>
 
               {/* Primary Source Citation Card */}
-              <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="p-4 rounded-2xl bg-teal-50/70 border border-teal-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-start gap-3">
-                  <FileText className="w-8 h-8 text-blue-600 shrink-0 mt-0.5" />
+                  <FileText className="w-8 h-8 text-teal-600 shrink-0 mt-0.5" />
                   <div>
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-blue-800">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-teal-800">
                       Verified Policy Source Citation
                     </div>
                     <h4 className="text-sm font-bold text-slate-900 mt-0.5">
@@ -173,7 +173,7 @@ export const PolicyAI: React.FC = () => {
                     setSelectedChunk(ragResult.retrieved_chunks?.[0]);
                     setSourceModalOpen(true);
                   }}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm shadow-blue-500/20 shrink-0 transition-all"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-sm shadow-teal-500/20 shrink-0 transition-all"
                 >
                   <Eye className="w-3.5 h-3.5" />
                   <span>View Source Document</span>
@@ -193,10 +193,10 @@ export const PolicyAI: React.FC = () => {
                         setSelectedChunk(ragResult.retrieved_chunks?.[idx]);
                         setSourceModalOpen(true);
                       }}
-                      className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 cursor-pointer transition-all flex flex-col justify-between"
+                      className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80 hover:border-teal-300 cursor-pointer transition-all flex flex-col justify-between"
                     >
                       <div>
-                        <div className="flex items-center justify-between text-[10px] font-bold text-blue-700 mb-1">
+                        <div className="flex items-center justify-between text-[10px] font-bold text-teal-700 mb-1">
                           <span>{cit.document}</span>
                           <span className="text-emerald-700">Page {cit.page}</span>
                         </div>
@@ -205,7 +205,7 @@ export const PolicyAI: React.FC = () => {
                       </div>
                       <div className="mt-2 pt-2 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-500">
                         <span>Relevance: {cit.relevance}</span>
-                        <span className="text-blue-600 font-semibold">Inspect →</span>
+                        <span className="text-teal-600 font-semibold">Inspect →</span>
                       </div>
                     </div>
                   ))}
@@ -217,9 +217,9 @@ export const PolicyAI: React.FC = () => {
 
         {/* Right 4 Columns: RAG Pipeline Architecture & Indexed Corpus */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+          <div className="p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-4">
             <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-blue-600" />
+              <BookOpen className="w-4 h-4 text-teal-600" />
               <span>Indexed HR Policy Corpus</span>
             </h3>
             <p className="text-xs text-slate-500">
@@ -230,11 +230,11 @@ export const PolicyAI: React.FC = () => {
               {documents.map((doc, i) => (
                 <div
                   key={i}
-                  className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between hover:bg-blue-50/30 transition-colors"
+                  className="p-3.5 rounded-2xl bg-[#f7faf9] border border-slate-200/80 flex items-center justify-between hover:bg-teal-50/40 transition-colors"
                 >
                   <div className="space-y-0.5">
                     <div className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                      <FileText className="w-3.5 h-3.5 text-blue-600" />
+                      <FileText className="w-3.5 h-3.5 text-teal-600" />
                       <span>{doc.file_name}</span>
                     </div>
                     <div className="text-[11px] text-slate-500">{doc.title}</div>
@@ -247,7 +247,7 @@ export const PolicyAI: React.FC = () => {
                     href={`/data/policies/${doc.file_name}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-2 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-600 shadow-xs transition-colors"
+                    className="p-2 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-600 shadow-2xs transition-colors"
                     title="Open PDF"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -258,15 +258,15 @@ export const PolicyAI: React.FC = () => {
           </div>
 
           {/* RAG Pipeline Explainer Box */}
-          <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
-            <div className="text-xs font-bold uppercase tracking-wider text-blue-700">
+          <div className="p-5 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-3">
+            <div className="text-xs font-bold uppercase tracking-wider text-teal-800">
               How Policy RAG Works
             </div>
             <div className="space-y-2 text-xs text-slate-600">
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">1. HR PDFs → Plain Text Extraction</div>
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">2. Semantic Chunking + Vector Embeddings</div>
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">3. User Question → Cosine Similarity Search</div>
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">4. Top 3 Chunks → Grounded LLM Citation</div>
+              <div className="p-2.5 rounded-xl bg-[#f7faf9] border border-slate-200/80">1. HR PDFs → Plain Text Extraction</div>
+              <div className="p-2.5 rounded-xl bg-[#f7faf9] border border-slate-200/80">2. Semantic Chunking + Vector Embeddings</div>
+              <div className="p-2.5 rounded-xl bg-[#f7faf9] border border-slate-200/80">3. User Question → Cosine Similarity Search</div>
+              <div className="p-2.5 rounded-xl bg-[#f7faf9] border border-slate-200/80">4. Top 3 Chunks → Grounded LLM Citation</div>
             </div>
           </div>
         </div>
@@ -275,10 +275,10 @@ export const PolicyAI: React.FC = () => {
       {/* Source Document Viewer Modal */}
       {sourceModalOpen && selectedChunk && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4">
+          <div className="bg-white border border-slate-200 rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-4">
             <div className="flex items-start justify-between border-b border-slate-100 pb-3">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-teal-600">
                   Verified Source Document Excerpt
                 </span>
                 <h4 className="text-base font-bold text-slate-900 mt-0.5">
@@ -294,7 +294,7 @@ export const PolicyAI: React.FC = () => {
               </button>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 leading-relaxed font-mono">
+            <div className="p-4 rounded-2xl bg-[#f7faf9] border border-slate-200 text-xs text-slate-800 leading-relaxed font-mono">
               "{selectedChunk.content}"
             </div>
 
@@ -303,14 +303,14 @@ export const PolicyAI: React.FC = () => {
                 href={`/data/policies/${selectedChunk.file_name}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-600 hover:text-teal-700"
               >
                 <span>Open Raw PDF File</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
               <button
                 onClick={() => setSourceModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs"
+                className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-xs"
               >
                 Close Preview
               </button>

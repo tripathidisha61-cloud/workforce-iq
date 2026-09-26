@@ -80,7 +80,7 @@ export const Recruitment: React.FC = () => {
         <div>
           <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
             <span>AI Recruitment Intelligence</span>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-semibold">
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800 border border-teal-300 font-semibold">
               Multi-Factor Scoring
             </span>
           </h2>
@@ -93,7 +93,7 @@ export const Recruitment: React.FC = () => {
       {/* Main Top Section: Job Description + Resume Upload + Instant Analysis */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Job Description & Resume Uploader */}
-        <div className="lg:col-span-5 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+        <div className="lg:col-span-5 p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs space-y-6">
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
               1. Select Target Job Requisition
@@ -101,7 +101,7 @@ export const Recruitment: React.FC = () => {
             <select
               value={selectedJobId}
               onChange={(e) => setSelectedJobId(Number(e.target.value))}
-              className="w-full bg-slate-50 border border-slate-200 text-sm text-slate-900 font-semibold rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
+              className="w-full bg-[#f8faf9] border border-slate-200 text-sm text-slate-900 font-semibold rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white"
             >
               {jobs.map((j) => (
                 <option key={j.id} value={j.id}>
@@ -112,13 +112,13 @@ export const Recruitment: React.FC = () => {
           </div>
 
           {/* Selected Job Details Box */}
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+          <div className="p-4 rounded-2xl bg-[#f7faf9] border border-slate-200/80 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
-                <Briefcase className="w-4 h-4 text-blue-600" />
+                <Briefcase className="w-4 h-4 text-teal-600" />
                 {currentJob.title}
               </span>
-              <span className="text-[11px] px-2 py-0.5 rounded-full bg-blue-100/70 text-blue-700 border border-blue-200 font-medium">
+              <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800 border border-teal-200 font-semibold">
                 Min {currentJob.min_experience}y Exp
               </span>
             </div>
@@ -131,7 +131,7 @@ export const Recruitment: React.FC = () => {
                 {(currentJob.required_skills || []).map((sk: string, idx: number) => (
                   <span
                     key={idx}
-                    className="text-xs px-2.5 py-1 rounded-lg bg-white text-blue-700 border border-slate-200 font-medium shadow-xs"
+                    className="text-xs px-2.5 py-1 rounded-lg bg-white text-teal-800 border border-slate-200 font-medium shadow-2xs"
                   >
                     {sk}
                   </span>
@@ -146,8 +146,8 @@ export const Recruitment: React.FC = () => {
               2. Upload Candidate Resume (PDF)
             </label>
 
-            <div className="border-2 border-dashed border-slate-200 hover:border-blue-400 rounded-2xl p-5 text-center transition-colors bg-slate-50/60">
-              <Upload className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+            <div className="border-2 border-dashed border-teal-200 hover:border-teal-400 rounded-3xl p-5 text-center transition-colors bg-[#f7faf9]">
+              <Upload className="w-8 h-8 text-teal-600 mx-auto mb-2" />
               <p className="text-xs text-slate-600 font-medium mb-2">
                 Drag and drop candidate PDF resume, or choose file
               </p>
@@ -166,7 +166,7 @@ export const Recruitment: React.FC = () => {
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <label
                   htmlFor="resume-upload"
-                  className="cursor-pointer px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold border border-slate-200 shadow-xs transition-colors"
+                  className="cursor-pointer px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold border border-slate-200 shadow-2xs transition-colors"
                 >
                   Choose PDF File
                 </label>
@@ -178,7 +178,7 @@ export const Recruitment: React.FC = () => {
                   }}
                   className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-colors flex items-center gap-1.5 ${
                     useDemoResume && !selectedFile
-                      ? "bg-blue-50 text-blue-700 border-blue-200"
+                      ? "bg-teal-50 text-teal-800 border-teal-300"
                       : "bg-white text-slate-600 border-slate-200"
                   }`}
                 >
@@ -199,7 +199,7 @@ export const Recruitment: React.FC = () => {
           <button
             onClick={handleAnalyze}
             disabled={analyzing}
-            className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 transition-all"
+            className="w-full py-3.5 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold shadow-md shadow-teal-600/20 flex items-center justify-center gap-2 transition-all"
           >
             {analyzing ? (
               <>
@@ -216,13 +216,13 @@ export const Recruitment: React.FC = () => {
         </div>
 
         {/* Right: Explainable Match Result Panel */}
-        <div className="lg:col-span-7 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div className="lg:col-span-7 p-6 rounded-3xl bg-white/95 backdrop-blur-sm border border-slate-200/80 shadow-xs flex flex-col justify-between">
           {analysisResult ? (
             <div className="space-y-6">
               {/* Top Result Header */}
               <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 flex items-center gap-1.5">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-teal-600 flex items-center gap-1.5">
                     <Cpu className="w-3.5 h-3.5" />
                     Explainable Candidate Intelligence
                   </span>
@@ -240,29 +240,29 @@ export const Recruitment: React.FC = () => {
               </div>
 
               {/* Transparent Mathematical Formula Box */}
-              <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-2">
+              <div className="p-4 rounded-2xl bg-teal-50/70 border border-teal-200 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-blue-800">
+                  <span className="text-xs font-bold text-teal-900">
                     Transparent Scoring Formula (Skill 50% + Semantic 30% + Experience 20%)
                   </span>
-                  <span className="text-xs font-mono text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                  <span className="text-xs font-mono text-emerald-700 font-bold bg-white px-2 py-0.5 rounded border border-teal-200">
                     {analysisResult.score_breakdown?.formula}
                   </span>
                 </div>
                 <div className="grid grid-cols-3 gap-3 pt-1">
-                  <div className="p-3 rounded-lg bg-white border border-blue-100 text-center shadow-xs">
+                  <div className="p-3 rounded-xl bg-white border border-teal-100 text-center shadow-2xs">
                     <div className="text-[10px] text-slate-500 uppercase font-bold">Skill Match (50%)</div>
                     <div className="text-lg font-bold text-slate-900">
                       {analysisResult.score_breakdown?.skill_match}%
                     </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-white border border-blue-100 text-center shadow-xs">
+                  <div className="p-3 rounded-xl bg-white border border-teal-100 text-center shadow-2xs">
                     <div className="text-[10px] text-slate-500 uppercase font-bold">Semantic Match (30%)</div>
                     <div className="text-lg font-bold text-slate-900">
                       {analysisResult.score_breakdown?.semantic_match}%
                     </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-white border border-blue-100 text-center shadow-xs">
+                  <div className="p-3 rounded-xl bg-white border border-teal-100 text-center shadow-2xs">
                     <div className="text-[10px] text-slate-500 uppercase font-bold">Experience (20%)</div>
                     <div className="text-lg font-bold text-slate-900">
                       {analysisResult.score_breakdown?.experience_match}%
@@ -274,7 +274,7 @@ export const Recruitment: React.FC = () => {
               {/* Skills Breakdown & Strengths/Gaps */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Skills Verification */}
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <div className="p-4 rounded-2xl bg-[#f7faf9] border border-slate-200/80">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-3">
                     Verified Skill Matrix
                   </h4>
@@ -287,7 +287,7 @@ export const Recruitment: React.FC = () => {
                             sk.level === "Strong"
                               ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                               : sk.level === "Good"
-                              ? "bg-blue-50 text-blue-700 border border-blue-200"
+                              ? "bg-teal-50 text-teal-700 border border-teal-200"
                               : "bg-amber-50 text-amber-700 border border-amber-200"
                           }`}
                         >
@@ -300,7 +300,7 @@ export const Recruitment: React.FC = () => {
 
                 {/* Strengths & Skill Gaps */}
                 <div className="space-y-3">
-                  <div className="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200">
+                  <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200">
                     <h4 className="text-xs font-bold text-emerald-800 mb-1.5 flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Key Strengths
                     </h4>
@@ -311,7 +311,7 @@ export const Recruitment: React.FC = () => {
                     </ul>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200">
+                  <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200">
                     <h4 className="text-xs font-bold text-amber-800 mb-1.5 flex items-center gap-1">
                       <AlertTriangle className="w-3.5 h-3.5" /> Detected Skill Gaps
                     </h4>
@@ -334,7 +334,7 @@ export const Recruitment: React.FC = () => {
                 </button>
                 <button
                   onClick={() => navigate(`/interview?candidate_id=1`)}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-md shadow-teal-600/20 transition-all"
                 >
                   <span>Generate Tailored Interview Questions</span>
                   <ArrowRight className="w-4 h-4" />
@@ -343,7 +343,7 @@ export const Recruitment: React.FC = () => {
             </div>
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-center p-8 space-y-4">
-              <div className="w-16 h-16 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600">
+              <div className="w-16 h-16 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-600">
                 <Sparkles className="w-8 h-8" />
               </div>
               <div className="max-w-md space-y-1.5">
@@ -355,7 +355,7 @@ export const Recruitment: React.FC = () => {
               </div>
               <button
                 onClick={handleAnalyze}
-                className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all"
+                className="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-md shadow-teal-600/20 transition-all"
               >
                 Run Demo Analysis on Priya Sharma (87% Match)
               </button>

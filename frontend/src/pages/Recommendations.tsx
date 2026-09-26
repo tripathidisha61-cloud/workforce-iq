@@ -18,17 +18,17 @@ export const Recommendations: React.FC = () => {
   }, []);
 
   const handleApprove = async (id: number, note: string) => {
-    await recommendationsApi.approve(id, note, "Sarah Jenkins (HR Director)");
+    await recommendationsApi.approve(id, note, "Sarah Jenkins (HR Admin)");
     await loadRecommendations();
   };
 
   const handleReject = async (id: number, note: string) => {
-    await recommendationsApi.reject(id, note, "Sarah Jenkins (HR Director)");
+    await recommendationsApi.reject(id, note, "Sarah Jenkins (HR Admin)");
     await loadRecommendations();
   };
 
   const handleReview = async (id: number, note: string) => {
-    await recommendationsApi.review(id, note, "Sarah Jenkins (HR Director)", "Under HR Review");
+    await recommendationsApi.review(id, note, "Sarah Jenkins (HR Admin)", "Under HR Review");
     await loadRecommendations();
   };
 
@@ -47,7 +47,7 @@ export const Recommendations: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-200">
+            <div className="p-2 rounded-2xl bg-teal-50 text-teal-600 border border-teal-200">
               <Sparkles className="w-5 h-5" />
             </div>
             <span>AI Recommendations & Human Approval</span>
@@ -59,11 +59,11 @@ export const Recommendations: React.FC = () => {
 
         {/* Summary Counters */}
         <div className="flex items-center gap-3">
-          <div className="px-3.5 py-2 rounded-xl bg-amber-50 border border-amber-200 text-xs font-bold text-amber-800 flex items-center gap-1.5 shadow-xs">
+          <div className="px-3.5 py-2 rounded-2xl bg-amber-50 border border-amber-200 text-xs font-bold text-amber-800 flex items-center gap-1.5 shadow-2xs">
             <Clock className="w-3.5 h-3.5 text-amber-600" />
             <span>{pendingCount} Pending Review</span>
           </div>
-          <div className="px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 flex items-center gap-1.5 shadow-xs">
+          <div className="px-3.5 py-2 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 flex items-center gap-1.5 shadow-2xs">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             <span>{approvedCount} Approved</span>
           </div>
@@ -71,10 +71,10 @@ export const Recommendations: React.FC = () => {
       </div>
 
       {/* Responsible AI Safeguard Notice */}
-      <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200 flex items-center gap-3 text-xs text-blue-950 shadow-xs">
-        <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0" />
+      <div className="p-4 rounded-2xl bg-teal-50/70 border border-teal-200 flex items-center gap-3 text-xs text-teal-950 shadow-2xs">
+        <ShieldCheck className="w-5 h-5 text-teal-600 shrink-0" />
         <div>
-          <strong className="text-blue-900">Responsible AI Governance Safeguard:</strong> AI recommendations are decision-support signals and require explicit human review. Sensitive demographic attributes are excluded from scoring models, and no candidate rejection or employee action is executed autonomously.
+          <strong className="text-teal-900">Responsible AI Governance Safeguard:</strong> AI recommendations are decision-support signals and require explicit human review. Sensitive demographic attributes are excluded from scoring models, and no candidate rejection or employee action is executed autonomously.
         </div>
       </div>
 
@@ -87,7 +87,7 @@ export const Recommendations: React.FC = () => {
               onClick={() => setStatusFilter(st)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-colors ${
                 statusFilter === st
-                  ? "bg-blue-600 text-white shadow-sm shadow-blue-500/20"
+                  ? "bg-teal-600 text-white shadow-xs shadow-teal-500/20"
                   : "bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
               }`}
             >
@@ -104,7 +104,7 @@ export const Recommendations: React.FC = () => {
               onClick={() => setTypeFilter(tp)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold capitalize transition-colors ${
                 typeFilter === tp
-                  ? "bg-slate-800 text-white"
+                  ? "bg-[#0d2127] text-white"
                   : "bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
               }`}
             >
